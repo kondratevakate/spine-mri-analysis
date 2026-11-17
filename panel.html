@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Spine Review · Ensemble workstation</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#edf1f3;color:#152734;font:14px/1.4 "Segoe UI",Arial,sans-serif}button,select,input{font:inherit}button,select{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #398bd7;outline-offset:2px}h1,h2,h3,p{margin:0}h1{font-size:21px;letter-spacing:-.5px}h2{font-size:18px;letter-spacing:-.4px}h3{font-size:14px}header{background:#152a35;color:white;padding:15px clamp(16px,2.2vw,40px);display:flex;align-items:center;gap:12px}.brand{width:32px;height:32px;display:grid;place-items:center;background:#22434a;border-radius:8px;color:#91e5cf}.subhead{color:#bbced1;border-left:1px solid #49616a;padding-left:14px}.ribbon{margin-left:auto;color:#bce2db;font-size:12px}.shell{max-width:1880px;margin:auto;padding:19px clamp(12px,1.8vw,32px)}.intro,.inline,.spread,.casebar,.mhead,.modalhead{display:flex;align-items:center;gap:10px}.spread,.mhead,.modalhead{justify-content:space-between}.casebar{margin-bottom:15px;flex-wrap:wrap}.casebar .levels{margin-left:auto}.label,.micro{font-size:12px;color:#566a75}.label{font-weight:600}.levels,.seg{display:inline-flex;background:#dfe7e9;padding:3px;border-radius:7px;gap:2px}.levels button,.seg button{border:0;background:transparent;color:#465b64;padding:6px 12px;border-radius:5px;font-size:12px;font-weight:600}.levels button.active,.seg button.active{background:white;color:#155b55;box-shadow:0 1px 3px #173a411e}select,.btn{border:1px solid #b9c8ce;border-radius:6px;background:white;color:#1b3744;padding:6px 9px}.btn:hover,select:hover{border-color:#608b8d}.grid{display:grid;grid-template-columns:minmax(205px,.61fr) minmax(340px,1.22fr) minmax(376px,1.1fr);align-items:start;gap:14px}.panel{background:white;border:1px solid #d3dfe1;border-radius:12px;overflow:hidden}.pad{padding:17px}.paneltitle{margin-bottom:12px}.section{padding:15px 0;border-top:1px solid #e0e7e9}.section:last-child{padding-bottom:0}.model{margin:11px 0}.model:last-child{margin-bottom:0}.model .spread,.setting .spread{font-size:12px;font-weight:600}.val{font-variant-numeric:tabular-nums;color:#11645b}.model small{font-size:11px;color:#526670}.range{width:100%;height:17px;margin:3px 0 0;accent-color:#147d70;cursor:pointer}.setting{margin-top:11px}.rule{width:100%;margin-top:5px}.reset{border:0;background:none;color:#117267;padding:2px 0;font-size:12px}.viewer{background:#10202a;color:#f7fbfc;border-color:#203642}.viewhead{padding:14px 17px 10px;display:flex;align-items:center;justify-content:space-between}.viewhead small,.viewer .micro{color:#b7c9cc}.levelname{color:#89e0cc}.pill{display:inline-block;border-radius:5px;font-size:12px;font-weight:650;padding:4px 9px;background:var(--tint);color:var(--ink)}.stage{height:clamp(325px,43vh,490px);display:flex;align-items:center;justify-content:center;background:#080f13;position:relative;overflow:hidden}.scene{position:relative;height:100%;max-width:100%;aspect-ratio:var(--ratio);flex:none}.scan{width:100%;height:100%;display:block}.svg{position:absolute;inset:0;width:100%;height:100%}.corner{position:absolute;z-index:1;color:#d5e3e4;font:11px Consolas,monospace;background:#0d1d23bb;border-radius:4px;padding:4px 6px;left:11px;top:10px;pointer-events:none}.over-toggle{cursor:pointer;color:#d0e0e1;font-size:12px}.viewfoot{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:5px}.scores{padding:13px 16px 16px;border-top:1px solid #354650}.bars{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:6px}.bar label{font-size:11px;color:#c2d0d2}.bar b{float:right;font-size:12px}.track{height:4px;background:#344c55;border-radius:2px;clear:both;margin-top:6px}.track i{display:block;border-radius:2px;height:100%}.resultline{padding:11px 16px;background:#1b313b;font-size:12px;display:flex;align-items:center;justify-content:space-between;gap:8px}.righthead{padding:16px 14px 10px}.galleryControls{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;margin:9px 0 0}.seg button{padding:4px 8px}.cols{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:0 13px 13px}.col{min-width:0}.colselect{width:100%;font-weight:600;background:#f5f8f8;border-color:#d8e2e3;padding:5px}.count{margin:3px 0 6px;color:#566a75;font-size:11px}.match{display:flex;gap:8px;align-items:center;width:100%;text-align:left;margin:5px 0 0;padding:5px;background:#f7f9f9;border:1px solid #dce5e7;border-radius:7px;color:inherit;min-height:60px}.match:hover{border-color:#53958c;background:#edf7f4}.match img{width:49px;height:49px;border-radius:3px;background:#12242b}.mtxt{min-width:0;line-height:1.25}.mtxt b{font:600 11px Consolas,monospace;display:block}.mtxt small{display:block;font-size:10px;color:#536773}.status{display:block;font-size:11px;font-weight:650}.ok{color:#106754}.err{color:#943c38}.wait{color:#566680}.empty{font-size:12px;padding:16px 4px;color:#546a74}.metrics{display:flex;align-items:center;gap:clamp(14px,3vw,50px);flex-wrap:wrap;margin-top:14px;padding:14px 17px}.metrics b{display:block;font-size:18px;letter-spacing:-.4px}.metrics small{color:#536974;font-size:12px}.metrics h2{font-size:15px}details{color:#4b606b;margin:12px 3px;max-width:1200px;font-size:12px}summary{cursor:pointer;color:#244b55;font-weight:600}details p{margin:6px 0}dialog{padding:20px;border:1px solid #bfcdcf;border-radius:12px;color:#17303b;max-width:min(620px,96vw)}dialog::backdrop{background:#081820a8}.compare{display:flex;gap:16px;margin:14px 0}.compare>div{flex:1;min-width:0}.compare img{width:100%;background:#0e1c20;border-radius:6px}.compare small{display:block}input[type=checkbox]{accent-color:#48ad99}.mono{font-family:Consolas,monospace}button:disabled,select:disabled,input:disabled{opacity:.5;cursor:default}@media(min-width:1550px){.match{min-height:70px}.match img{width:57px;height:57px}}@media(max-width:1050px){.grid{grid-template-columns:215px 1fr}.similar{grid-column:1/-1}.cols{gap:15px}.match img{width:62px;height:62px}}@media(max-width:660px){.grid{display:flex;flex-direction:column}.grid>aside,.grid>article{width:100%}.viewer{order:-1}.casebar .levels{margin-left:0}.levels button{padding:6px 8px}.subhead{display:none}.ribbon{font-size:10px}.shell{padding:12px}.stage{height:330px}.metrics{gap:18px}.mtxt b{font-size:10px}.match{gap:4px}.match img{width:42px;height:42px}.cols{gap:7px;padding:0 9px 9px}.compare{gap:8px}}
+.match{min-height:75px;gap:10px}.match img{width:63px;height:63px}.mtxt b{font-size:12px}.mtxt small{font-size:11px}.status{font-size:12px}.simval{font:10px Consolas,monospace;color:#50636b}.compare img{display:block;margin:5px 0}.compare{max-width:550px}.compare h3{font-weight:600}.resultline strong{font-size:13px}.stage .corner{font-size:12px}
+@media(max-width:1200px) and (min-width:1051px){.match{gap:5px}.match img{width:52px;height:52px}.mtxt b{font-size:11px}}@media(max-width:660px){.match{gap:5px}.match img{width:43px;height:43px}.mtxt b{font-size:10px}.status,.mtxt small{font-size:10px}}
+</style></head><body>
+<header><span class="brand" aria-hidden="true"><svg viewBox="0 0 30 30" width="23" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m10 5 9 2m-11 4 11 2m-12 4 11 2m-10 4 10 2"/></svg></span><h1>Spine Review</h1><span class="subhead">Ensemble workstation</span><span class="ribbon">Lumbar MRI · Research</span></header>
+<main class="shell">
+<div class="casebar"><label for="study" class="label">Study</label><select id="study"></select><button id="prev" class="btn" aria-label="Previous study">‹</button><button id="next" class="btn" aria-label="Next study">›</button><div class="levels" id="levels" aria-label="Lumbar level"></div></div>
+<div class="grid">
+<aside class="panel pad"><div class="spread paneltitle"><h2>Ensemble</h2><button class="reset" id="reset">Reset</button></div><div class="micro">Model weights · normalized share</div><div id="weights"></div>
+<div class="section"><label class="label" for="rule">Decision rule</label><select class="rule" id="rule"><option value="threshold">Severe score threshold</option><option value="top">Highest class score</option></select>
+<div class="setting"><div class="spread"><label for="threshold">Severe threshold</label><span class="val" id="thv"></span></div><input class="range" id="threshold" type="range" min="0" max="100" value="50"></div>
+<div class="setting"><div class="spread"><label for="conf">Minimum decision score</label><span class="val" id="cfv"></span></div><input class="range" id="conf" type="range" min="0" max="100" value="0"></div><p class="micro">Below minimum → defer for review.</p></div></aside>
+<article class="panel viewer"><div class="viewhead"><div><small>Spinal canal stenosis</small><h2><span id="vlevel" class="levelname"></span> · Sagittal T2/STIR</h2></div><span class="pill" id="decision"></span></div>
+<div class="stage"><div class="corner" id="studyid"></div><div class="scene" id="scene"><img class="scan" id="scan" alt="Central sagittal lumbar MRI"><svg class="svg" id="overlay" aria-label="Selected model crop location"></svg></div></div>
+<div class="viewfoot"><label class="over-toggle"><input type="checkbox" id="show" checked> 48 mm model crop</label><span class="micro">Review marker</span></div>
+<div class="scores"><div class="micro">Ensemble class scores</div><div class="bars" id="bars"></div></div><div class="resultline"><span id="ref"></span><strong id="outcome"></strong></div></article>
+<aside class="panel similar"><div class="righthead"><h2>Similar cases</h2><p class="micro" id="nearlevel"></p><div class="galleryControls"><div class="seg" id="filters"></div></div></div><div class="cols" id="cols"></div></aside>
+</div>
+<section class="panel metrics"><div><h2>Test cohort</h2><small id="population"></small></div><div><b id="detected"></b><small>Severe levels detected</small></div><div><b id="falsepos"></b><small>False severe alerts</small></div><div><b id="accuracy"></b><small>Correct among decided</small></div><div><b id="deferred"></b><small>Levels deferred</small></div></section>
+<details><summary>Data, model inputs and decision rules</summary><p>RSNA LumbarDISC central canal grades are normal/mild, moderate and severe. The rectangle marks the estimated 48 mm disc-level crop. Its color encodes the current decision. Its location stays fixed when thresholds change. It does not trace a lesion boundary.</p><p>Four lumbar classifiers use a ResNet-18 baseline, matched whole sagittal image, sagittal crop or paired sagittal/axial crops. The axial projection has uncertain cross-series correspondence. The fifth uses the frozen 2026 RSNA Knee ConvNeXt-T encoder with a three-class lumbar logistic head trained on 256 training studies. Each class score is a weighted arithmetic mean. A minimum applies to the score of the assigned class. Scores have not been clinically calibrated.</p><p>In threshold mode, select severe when its score meets the threshold. Otherwise select the larger of the two remaining scores. Highest-class mode takes the largest of all three. A deferred case counts as undetected for severe sensitivity and is excluded from decided-case accuracy.</p><p>Neighbors come from 299 separate validation studies. For each selected reference grade, the viewer ranks same-level sagittal crops by cosine similarity between standardized, frozen knee-encoder embeddings, then applies the decision-status filter. Ties use study order. Similarity is a visual descriptor, without physician validation. The internal test studies were previously inspected. All interactive cohort metrics are exploratory.</p></details>
+</main><dialog id="compare"><div class="modalhead"><h2>Compare level crops</h2><button class="btn" id="close">Close</button></div><div class="compare" id="pair"></div><p class="micro" id="pairinfo"></p></dialog>
+<script id="dataset" type="application/json">__PAYLOAD__</script><script>
+const D=JSON.parse(document.getElementById('dataset').textContent);
+const $=id=>document.getElementById(id), grades=['Normal/mild','Moderate','Severe'], levels=['L1/L2','L2/L3','L3/L4','L4/L5','L5/S1'];
+const models=['ResNet-18','Whole sagittal','Sagittal crop','Sagittal + axial','Knee ConvNeXt-T'];
+const colors=['#76cddd','#efbe66','#f18d81','#c0c5da','#b5c2ca'], inks=['#12444d','#5d400f','#6b302b','#42485e','#3a4953'];
+const state={q:D.start,l:3,w:[5,5,5,5,5],filter:'All',group:[1,2]};
+const uri=v=>'data:image/jpeg;base64,'+v;
+const button=(text,fn)=>{let b=document.createElement('button'); b.textContent=text;b.onclick=fn;return b};
+const opt=(text,value)=>new Option(text,value);
+const pct=x=>(100*x).toFixed(1)+'%';
+function assess(row,l){
+ const sum=state.w.reduce((a,b)=>a+b,0);
+ if(!sum)return {p:[0,0,0],g:4,status:'Off'};
+ const p=[0,1,2].map(k=>row.p[l].reduce((s,m,i)=>s+m[k]*state.w[i],0)/sum);
+ let g=$('rule').value==='top'?p.indexOf(Math.max(...p)):(p[2]>=(+$('threshold').value/100)?2:(p[0]>=p[1]?0:1));
+ if(p[g]<+$('conf').value/100)g=3;
+ return {p,g,status:g===3?'Deferred':g===row.grade[l]?'Correct':'Error'};
+}
+const gradeName=g=>grades[g]||['Deferred','Weights off'][g-3];
+const statusClass=s=>s==='Correct'?'ok':s==='Error'?'err':'wait';
+function drawViewer(row){
+ const l=state.l,a=assess(row,l),color=colors[a.g];
+ $('studyid').textContent='ID '+row.id;$('vlevel').textContent=levels[l];$('decision').textContent=gradeName(a.g);
+ $('decision').style.cssText='--tint:'+color+';--ink:'+inks[a.g];
+ if($('scan').dataset.id!==row.id){$('scan').src=uri(row.image);$('scan').dataset.id=row.id}
+ const [w,h]=row.dims,[x,y]=row.xy[l].map((n,i)=>n*row.dims[i]);
+ $('scene').style.setProperty('--ratio',w+'/'+h);
+ let bw=w*48/row.fov[0],bh=h*48/row.fov[1],bx=x-bw/2,by=y-bh/2;
+ const svg=$('overlay');svg.setAttribute('viewBox','0 0 '+w+' '+h);
+ const text=levels[l]+'  '+gradeName(a.g)+(a.g<3?'  '+pct(a.p[a.g]):''),tw=text.length*6.1+14;
+ const tx=Math.min(w-tw-2,Math.max(2,bx+bw+5)),ty=Math.min(h-20,Math.max(3,by+bh/2-10));
+ svg.innerHTML=$('show').checked?'<rect x="'+bx+'" y="'+by+'" width="'+bw+'" height="'+bh+'" fill="'+color+'" fill-opacity="'+(a.g<3?.035+.12*a.p[a.g]:.04)+'" stroke="'+color+'" stroke-width="2" '+(a.g>=3?'stroke-dasharray="5 4"':'')+'/>'+
+ '<rect x="'+tx+'" y="'+ty+'" rx="3" width="'+tw+'" height="20" fill="#10212a" stroke="'+color+'"/><text x="'+(tx+6)+'" y="'+(ty+14)+'" fill="'+color+'" font-family="Segoe UI,Arial" font-size="11" font-weight="650">'+text+'</text>':'';
+ $('bars').innerHTML=grades.map((g,i)=>'<div class="bar"><label>'+g+'</label><b>'+(a.g===4?'—':pct(a.p[i]))+'</b><div class="track"><i style="width:'+a.p[i]*100+'%;background:'+colors[i]+'"></i></div></div>').join('');
+ $('ref').textContent='RSNA reference · '+grades[row.grade[l]];$('outcome').textContent=a.status;
+}
+let cachedKey='',ordered=[];
+function neighbors(row){
+ let key=row.id+'/'+state.l;
+ if(key!==cachedKey){
+  const raw=Uint8Array.from(atob(row.sim),c=>c.charCodeAt(0)); const dv=new DataView(raw.buffer);
+  ordered=D.bank.map((r,i)=>({r,sim:dv.getInt16(2*(state.l*D.bank.length+i),true)/32767})).sort((a,b)=>b.sim-a.sim);
+  cachedKey=key;
+ }
+ return ordered;
+}
+function compare(row,item){
+ const l=state.l;
+ $('pair').innerHTML=[row,item.r].map((r,i)=>'<div><h3>'+(i?'Neighbor':'Selected study')+'</h3><img src="'+uri(r.crops[l])+'" alt="Sagittal disc-level crop"><b>'+levels[l]+' · '+r.id+'</b><small>Reference '+grades[r.grade[l]]+' · Decision '+gradeName(assess(r,l).g)+'</small></div>').join('');
+ $('pairinfo').textContent='48 mm source-image crops · Embedding cosine '+item.sim.toFixed(3);$('compare').showModal();
+}
+function drawGallery(row){
+ $('nearlevel').textContent=levels[state.l]+' · Up to five nearest per reference grade';
+ [...$('filters').children].forEach(b=>{b.classList.toggle('active',b.textContent===state.filter);b.setAttribute('aria-pressed',b.textContent===state.filter)});
+ const ordered=neighbors(row);const cols=$('cols');cols.replaceChildren();
+ state.group.forEach((grade,j)=>{
+  const col=document.createElement('div');col.className='col';const sel=document.createElement('select');sel.className='colselect';
+  sel.setAttribute('aria-label','Reference grade, column '+(j+1));grades.forEach((g,i)=>sel.add(opt(g,i)));sel.value=grade;
+  sel.onchange=()=>{let other=1-j,v=+sel.value;if(v===state.group[other])state.group[other]=grade;state.group[j]=v;drawGallery(row)};col.append(sel);
+  const matches=ordered.filter(o=>o.r.grade[state.l]===grade&&(state.filter==='All'||assess(o.r,state.l).status===state.filter));
+  const count=document.createElement('div');count.className='count';count.textContent=Math.min(5,matches.length)+' shown / '+matches.length+' eligible';col.append(count);
+  matches.slice(0,5).forEach(o=>{let b=button('',()=>compare(row,o));b.className='match';let a=assess(o.r,state.l);
+   b.innerHTML='<img src="'+uri(o.r.crops[state.l])+'" alt=""><span class="mtxt"><b>'+o.r.id+'</b><span class="status '+statusClass(a.status)+'">'+a.status+'</span><small>Call · '+gradeName(a.g)+'</small><span class="simval">Cosine '+o.sim.toFixed(3)+'</span></span>';b.title='Compare source-image crops';col.append(b)});
+  if(!matches.length){let p=document.createElement('p');p.className='empty';p.textContent='No matching cases.';col.append(p)}cols.append(col);
+ });
+}
+function render(){
+ let row=D.q[state.q];$('study').value=state.q;
+ [...$('levels').children].forEach((b,i)=>{b.classList.toggle('active',i===state.l);b.setAttribute('aria-pressed',i===state.l)});
+ let sum=state.w.reduce((a,b)=>a+b,0);
+ state.w.forEach((v,i)=>{$('w'+i).value=v;$('share'+i).textContent=sum?Math.round(100*v/sum)+'%':'—';$('sev'+i).textContent='Severe score '+pct(row.p[state.l][i][2])});
+ $('thv').textContent=$('threshold').value+'%';$('cfv').textContent=$('conf').value+'%';$('threshold').disabled=$('rule').value==='top';
+ drawViewer(row);drawGallery(row);
+ let tp=0,fp=0,severe=0,correct=0,d=0,n=0;for(const r of D.q){for(let l=0;l<5;l++){
+  const a=assess(r,l),s=r.grade[l]===2;n++;severe+=s;tp+=s&&a.g===2;fp+=!s&&a.g===2;correct+=a.status==='Correct';d+=a.g>=3;
+ }}
+ $('detected').textContent=sum?tp+' / '+severe:'—';$('falsepos').textContent=sum?fp+' / '+(n-severe):'—';
+ $('accuracy').textContent=n>d?pct(correct/(n-d)):'—';$('deferred').textContent=sum?d+' / '+n:'—';
+ $('population').textContent=D.q.length+' studies · '+n.toLocaleString('en-US')+' levels';
+}
+D.q.forEach((r,i)=>$('study').add(opt('MRI '+r.id,i)));$('study').onchange=e=>{state.q=+e.target.value;render()};
+$('prev').onclick=()=>{state.q=(state.q+D.q.length-1)%D.q.length;render()};$('next').onclick=()=>{state.q=(state.q+1)%D.q.length;render()};
+levels.forEach((l,i)=>$('levels').append(button(l,()=>{state.l=i;render()})));
+models.forEach((m,i)=>{let div=document.createElement('div');div.className='model';
+ div.innerHTML='<div class="spread"><label for="w'+i+'">'+m+'</label><span id="share'+i+'" class="val"></span></div><input class="range" id="w'+i+'" type="range" min="0" max="10" step=".1" value="5"><small id="sev'+i+'"></small>';$('weights').append(div);
+ $('w'+i).oninput=e=>{state.w[i]=+e.target.value;render()}});
+['All','Correct','Error','Deferred'].forEach(s=>$('filters').append(button(s,()=>{state.filter=s;drawGallery(D.q[state.q])})));
+['threshold','conf','rule'].forEach(id=>$(id).oninput=render);$('show').onchange=()=>drawViewer(D.q[state.q]);$('close').onclick=()=>$('compare').close();
+$('reset').onclick=()=>{state.w.fill(5);$('threshold').value=50;$('conf').value=0;$('rule').value='threshold';state.filter='All';render()};render();
+</script></body></html>

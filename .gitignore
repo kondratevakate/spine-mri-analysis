@@ -1,0 +1,8 @@
+work/
+!work/
+work/*
+!work/review_panel.py
+spine-review.html
+spine-reader-v2.html
+__pycache__/
+*.pyc

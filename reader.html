@@ -1,0 +1,1025 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lumbar review · Five-level overview</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #eef2f3;
+        color: #182e38;
+        font:
+          14px/1.4 "Segoe UI",
+          Arial,
+          sans-serif;
+      }
+      header {
+        background: #17343d;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 15px 2.2vw;
+      }
+      header b {
+        font-size: 21px;
+      }
+      header span {
+        color: #bcd4d6;
+      }
+      header small {
+        margin-left: auto;
+      }
+      main {
+        max-width: 1830px;
+        margin: auto;
+        padding: 16px 2vw;
+      }
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+      h2 {
+        font-size: 18px;
+        letter-spacing: -0.3px;
+      }
+      h3 {
+        font-size: 15px;
+      }
+      small,
+      .hint {
+        font-size: 12px;
+        color: #49616b;
+      }
+      header small,
+      .dark small {
+        color: #c7d8d9;
+      }
+      button,
+      select {
+        font: inherit;
+        border: 1px solid #bccacc;
+        border-radius: 6px;
+        background: white;
+        color: #20404a;
+        padding: 6px 9px;
+        cursor: pointer;
+      }
+      button:hover,
+      select:hover {
+        border-color: #208579;
+      }
+      button:focus-visible,
+      select:focus-visible,
+      input:focus-visible {
+        outline: 3px solid #468acd;
+      }
+      button:disabled {
+        color: #657780;
+        opacity: 0.65;
+        cursor: default;
+      }
+      button.active {
+        background: #126c62;
+        border-color: #126c62;
+        color: white;
+      }
+      button.primary {
+        background: #146e63;
+        color: white;
+        border-color: #146e63;
+      }
+      .toolbar,
+      .line,
+      .sectionhead {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        flex-wrap: wrap;
+      }
+      .toolbar {
+        margin-bottom: 14px;
+      }
+      .spacer {
+        flex: 1;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(290px, 0.98fr) minmax(
+            245px,
+            0.8fr
+          ) minmax(340px, 1.1fr);
+        gap: 12px;
+        align-items: start;
+      }
+      .card {
+        background: white;
+        border: 1px solid #cedbdd;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .head {
+        padding: 14px 15px 10px;
+      }
+      .head small {
+        display: block;
+        margin-top: 3px;
+      }
+      .dark {
+        background: #10232c;
+        color: white;
+      }
+      .overview {
+        position: relative;
+        display: grid;
+        place-items: center;
+        background: #050c10;
+      }
+      .map {
+        position: relative;
+        width: min(100%, 430px);
+      }
+      .map img,
+      .pairmap img {
+        display: block;
+        width: 100%;
+      }
+      .mark {
+        position: absolute;
+        transform: translate(-6px, -50%);
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .mark:before {
+        content: "";
+        display: block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid #9addd2;
+        background: #13262c;
+      }
+      .mark span {
+        background: #172e36da;
+        padding: 2px 4px;
+        border-radius: 3px;
+      }
+      .mark.active {
+        background: transparent;
+      }
+      .mark.active span,
+      .mark.active:before {
+        background: #9fe8d4;
+        color: #082c2c;
+      }
+      .stage {
+        padding: 9px 14px;
+        color: #c1d2d4;
+        font-size: 12px;
+      }
+      .axbody {
+        padding: 0 14px 14px;
+      }
+      .aximg {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: contain;
+        background: #071216;
+        border-radius: 5px;
+        display: block;
+      }
+      .pager {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 7px 0;
+        font-size: 12px;
+      }
+      .dx {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid #d7e2e3;
+      }
+      .choices {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin: 7px 0;
+      }
+      .choices button {
+        font-size: 12px;
+      }
+      .levels {
+        padding: 0 10px 10px;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        width: 100%;
+        background: #f4f7f7;
+        border: 1px solid #d8e1e2;
+        text-align: left;
+        padding: 5px;
+        margin: 4px 0;
+      }
+      .row.sel {
+        background: #e1f1ed;
+        border-color: #408b7d;
+      }
+      .row img {
+        width: 41px;
+        height: 41px;
+        object-fit: contain;
+        background: #0b171d;
+        border-radius: 3px;
+      }
+      .row b,
+      .row small {
+        display: block;
+      }
+      .row small {
+        font-size: 11px;
+      }
+      .row .state {
+        margin-left: auto;
+        padding-right: 3px;
+        font-size: 11px;
+        color: #305953;
+      }
+      .lower {
+        margin-top: 12px;
+      }
+      .refbody {
+        padding: 0 12px 12px;
+      }
+      .refbody select {
+        width: 100%;
+        margin: 6px 0 8px;
+      }
+      .groups {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .group h3 {
+        color: #22454c;
+      }
+      .refitem {
+        width: 100%;
+        text-align: left;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px;
+        background: #f5f8f7;
+        border-color: #d8e3e2;
+      }
+      .refitem img {
+        width: 62px;
+        height: 62px;
+        border-radius: 4px;
+        object-fit: contain;
+        background: #0a171c;
+      }
+      .refitem b,
+      .refitem small {
+        display: block;
+      }
+      .refitem b {
+        font:
+          600 11px Consolas,
+          monospace;
+      }
+      .refitem small {
+        font-size: 11px;
+      }
+      .empty {
+        padding: 12px 6px;
+        color: #536774;
+        font-size: 12px;
+      }
+      .foot {
+        margin-top: 12px;
+        padding: 12px 15px;
+      }
+      .foot p {
+        margin-top: 5px;
+      }
+      details summary {
+        cursor: pointer;
+        font-weight: 600;
+      }
+      dialog {
+        max-width: min(860px, 97vw);
+        width: 830px;
+        border: 1px solid #b9cdcd;
+        border-radius: 10px;
+        color: inherit;
+        padding: 18px;
+      }
+      dialog::backdrop {
+        background: #07161bb0;
+      }
+      .pairs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin: 12px 0;
+      }
+      .pairimgs {
+        display: grid;
+        grid-template-columns: 1fr 1.1fr;
+        gap: 3px;
+        background: #0c1c24;
+        margin-top: 5px;
+        align-items: center;
+      }
+      .pairimgs img {
+        display: block;
+        width: 100%;
+        object-fit: contain;
+      }
+      .pairmap {
+        position: relative;
+      }
+      .dot {
+        position: absolute;
+        background: #a1f0dc;
+        border: 2px solid #1c3b40;
+        border-radius: 50%;
+        width: 9px;
+        height: 9px;
+        transform: translate(-50%, -50%);
+      }
+      [hidden] {
+        display: none !important;
+      }
+      .na {
+        padding: 25px 9px;
+        background: #edf2f2;
+        color: #50656b;
+      }
+      .viewerHead {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .badgetxt {
+        font:
+          11px Consolas,
+          monospace;
+      }
+      .blind {
+        cursor: pointer;
+      }
+      .blind input {
+        accent-color: #187c6c;
+      }
+      #storage {
+        color: #904810;
+      }
+      #readerstatus {
+        font-weight: 600;
+        color: #136759;
+      }
+      .sourcedetail {
+        font-size: 11px;
+        color: #4e6370;
+        overflow-wrap: anywhere;
+      }
+      @media (max-width: 1100px) {
+        .layout {
+          grid-template-columns: minmax(245px, 1fr) minmax(
+              200px,
+              0.85fr
+            ) minmax(285px, 1fr);
+        }
+        .refitem {
+          gap: 4px;
+        }
+        .refitem img {
+          width: 44px;
+          height: 44px;
+        }
+        .row {
+          gap: 5px;
+        }
+        .head {
+          padding: 10px;
+        }
+        .map {
+          max-width: 345px;
+        }
+      }
+      @media (max-width: 850px) {
+        .layout {
+          grid-template-columns: 1fr 1fr;
+        }
+        .references {
+          grid-column: 1/-1;
+        }
+        .refitem img {
+          width: 62px;
+          height: 62px;
+        }
+      }
+      @media (max-width: 570px) {
+        main {
+          padding: 10px;
+        }
+        .layout {
+          grid-template-columns: 1fr;
+        }
+        .references {
+          grid-column: auto;
+        }
+        .overviewStack {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 5px;
+        }
+        .overviewStack .lower {
+          margin-top: 0;
+        }
+        .row img {
+          width: 30px;
+          height: 30px;
+        }
+        .row {
+          flex-wrap: wrap;
+          gap: 3px;
+        }
+        .row .state {
+          width: 100%;
+          margin-left: 0;
+        }
+        .head small {
+          font-size: 10px;
+        }
+        .pairs {
+          gap: 5px;
+        }
+        .toolbar {
+          gap: 5px;
+        }
+        header span {
+          display: none;
+        }
+        .map .mark span {
+          font-size: 8px;
+        }
+      }
+      @media (min-width: 851px) {
+        .layout {
+          grid-template-columns: minmax(390px, 1.4fr) minmax(
+              235px,
+              0.76fr
+            ) minmax(310px, 1fr);
+        }
+        .overviewStack {
+          display: grid;
+          grid-template-columns: 1.35fr 1fr;
+          gap: 6px;
+          align-items: start;
+        }
+        .overviewStack .lower {
+          margin: 0;
+        }
+        .overviewStack .head {
+          padding: 12px 9px;
+        }
+        .levels {
+          padding: 0 5px 5px;
+        }
+        .row {
+          display: grid;
+          grid-template-columns: 55px auto;
+          gap: 0 6px;
+          padding: 4px;
+        }
+        .row img {
+          width: 55px;
+          height: 55px;
+          grid-row: span 2;
+        }
+        .row .state {
+          margin: 0;
+        }
+        .row small {
+          line-height: 1.1;
+        }
+        .mark {
+          font-size: 10px;
+        }
+      }
+      @media (min-width: 851px) and (max-width: 1150px) {
+        .layout {
+          grid-template-columns: minmax(315px, 1.2fr) minmax(
+              195px,
+              0.75fr
+            ) minmax(265px, 1fr);
+        }
+        .row {
+          grid-template-columns: 34px auto;
+        }
+        .row img {
+          width: 34px;
+          height: 40px;
+        }
+        .overviewStack .head h2 {
+          font-size: 15px;
+        }
+      }
+      .mark.left-label span { position:absolute; right:100%; margin-right:4px; }
+      .missing-plane { grid-row:span 2; display:grid; place-items:center; min-height:40px; font-size:10px; color:#536770; background:#e8eff0; border-radius:3px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <b>Lumbar review</b><span>Five-level overview</span
+      ><small>Research reader · Central canal</small>
+    </header>
+    <main>
+      <div class="toolbar">
+        <label for="study">Study</label
+        ><select id="study"></select
+        ><label class="blind"
+          ><input type="checkbox" id="blind" /> Blind read</label
+        ><button id="reveal">Show references for this level</button
+        ><span class="spacer"></span><span id="progress"></span
+        ><button id="export">Export reader worksheet</button>
+      </div>
+      <div class="layout">
+        <div class="overviewStack">
+          <section class="card dark">
+            <div class="head">
+              <h2>Sagittal overview</h2>
+              <small>T2/STIR · Estimated disc levels</small>
+            </div>
+            <div class="overview"><div class="map" id="map"></div></div>
+          </section>
+          <section class="card lower">
+            <div class="head"><h2>Levels</h2></div>
+            <div class="levels" id="rows"></div>
+          </section>
+        </div>
+        <section class="card">
+          <div class="head">
+            <h2 id="axTitle"></h2>
+            <small>Axial T2 · Central canal review</small>
+          </div>
+          <div class="axbody">
+            <div id="ax"></div>
+            <div class="pager">
+              <button aria-label="Previous axial slice" id="prev">‹</button
+              ><span id="slice"></span
+              ><button aria-label="Next axial slice" id="next">›</button>
+            </div>
+            <div id="source" class="sourcedetail"></div>
+            <div class="dx">
+              <h3>Your assessment</h3>
+              <div class="choices" id="choices"></div>
+              <p id="readerstatus"></p>
+              <small id="storage"></small>
+            </div>
+            <div class="dx" id="assist"></div>
+            <div class="dx">
+              <small
+                >Limited image excerpts. Review the complete examination in PACS
+                before reporting. Symptoms, prior studies and examination
+                findings are unavailable here.</small
+              >
+            </div>
+          </div>
+        </section>
+        <section class="card references">
+          <div class="head">
+            <h2>Reference cases</h2>
+            <small id="why"></small>
+          </div>
+          <div class="refbody" id="refs">
+            <label for="mode" class="hint">Comparison</label
+            ><select id="mode">
+              <option value="upper">Boundary · Moderate vs severe</option>
+              <option value="lower">Boundary · Normal/mild vs moderate</option>
+              <option value="around">
+                One grade below / above provisional grade
+              </option>
+            </select>
+            <div class="groups" id="groups"></div>
+            <details class="dx">
+              <summary>How matches are selected</summary>
+              <p class="hint">
+                Same disc level, separate study, reference grade agrees with the
+                fixed ensemble. Rank by full-field appearance across three axial
+                T2 slices (75%) and the entire sagittal image (25%). When only
+                one query plane is verified, both studies use their center plane
+                plus the sagittal view. The fixed weights are a design
+                hypothesis. Reader agreement on similarity is untested.
+              </p>
+            </details>
+          </div>
+        </section>
+      </div>
+      <div class="card foot">
+        <details>
+          <summary>Scope and reading protocol</summary>
+          <p>
+            Review all five levels, inspect adjacent slices, compare reference
+            examples when useful, and record an independent grade or
+            insufficient images per level. Blind read hides model calls and
+            reference cases. The reader worksheet contains only your entries. It
+            is a research record.
+          </p>
+          <p>
+            Reference agreement uses equal model weights, severe threshold 50%,
+            no deferral. Axial levels use existing bilateral RSNA subarticular
+            landmarks. Missing or inconsistent landmarks can exclude a level. An
+            extracted slice may miss the plane of greatest narrowing. The
+            preview does not assess foraminal or recess stenosis, clinical
+            urgency, or treatment eligibility.
+          </p>
+        </details>
+      </div>
+    </main>
+    <dialog id="dialog">
+      <div class="line">
+        <h2 id="dlgTitle"></h2>
+        <span class="spacer"></span><button id="close">Close</button>
+      </div>
+      <div id="pairs" class="pairs"></div>
+      <div class="pager">
+        <button id="dprev">Previous plane</button><span id="dpos"></span
+        ><button id="dnext">Next plane</button>
+      </div>
+      <small
+        >Markers indicate estimated sagittal level. Axial examples use the same
+        named level and relative stack position. These are independent
+        examinations.</small
+      >
+    </dialog>
+    <script id="data" type="application/json">
+      __DATA__
+    </script>
+    <script>
+      const D = JSON.parse(document.querySelector("#data").textContent),
+        $ = (id) => document.getElementById(id);
+      const L = ["L1/L2", "L2/L3", "L3/L4", "L4/L5", "L5/S1"],
+        G = ["Normal/mild", "Moderate", "Severe"],
+        ins = "Insufficient images",
+        uri = (x) => "data:image/jpeg;base64," + x;
+      const key = "lumbar.reader.v2.assessments";
+      let notes = {};
+      try {
+        notes = JSON.parse(localStorage.getItem(key) || "{}");
+      } catch (e) {
+        $("storage").textContent =
+          "Storage unavailable. Export before leaving.";
+      }
+      let exposure = {};
+      try {
+        exposure = JSON.parse(localStorage.getItem(key + ".exposure") || "{}");
+      } catch (e) {
+        $("storage").textContent =
+          "Exposure history available only for this session.";
+      }
+      function expose() {
+        const id = current().id;
+        exposure[id] ??= {};
+        exposure[id][level] = true;
+        try {
+          localStorage.setItem(key + ".exposure", JSON.stringify(exposure));
+        } catch (e) {
+          $("storage").textContent = "Session only. Export before leaving.";
+        }
+      }
+      let study = D.start,
+        level = 3,
+        plane = 1,
+        match = null,
+        detailPlane = 1;
+      const current = () => D.q[study],
+        entry = (l) => notes[current().id]?.[l]?.final || "",
+        mid = (a) => (a ? Math.floor(a.images.length / 2) : 0);
+      function selectLevel(l) {
+        level = l;
+        plane = mid(current().ax[l]);
+        $("blind").checked = true;
+        draw();
+      }
+      function save(value) {
+        const r = current();
+        notes[r.id] ??= {};
+        const old = notes[r.id][level];
+        notes[r.id][level] = {
+          first: old?.first || value,
+          firstBlind:
+            old?.firstBlind ?? ($("blind").checked && !exposure[r.id]?.[level]),
+          tracked: old ? !!old.tracked : true,
+          final: value,
+        };
+        try {
+          localStorage.setItem(key, JSON.stringify(notes));
+        } catch (e) {
+          $("storage").textContent = "Session only. Export before leaving.";
+        }
+        draw();
+      }
+      function compare(j) {
+        match = D.bank[j];
+        detailPlane = mid(current().ax[level]);
+        drawDialog();
+        $("dialog").showModal();
+      }
+      function drawDialog() {
+        const rows = [current(), match];
+        $("dlgTitle").textContent = L[level] + " · Source comparison";
+        $("pairs").innerHTML = rows
+          .map((r, i) => {
+            const a = r.ax[level],
+              xy = r.xy[level],
+              pos =
+                current().ax[level].images.length === 1 ? mid(a) : detailPlane;
+            return (
+              "<section><h3>" +
+              (i ? "Reference · " + G[r.ref[level]] : "Selected study") +
+              "</h3><small>Study " +
+              r.id +
+              '</small><div class="pairimgs"><div class="pairmap"><img alt="Full sagittal overview" src="' +
+              uri(r.sag) +
+              '"><i class="dot" style="left:' +
+              100 * xy[0] +
+              "%;top:" +
+              100 * xy[1] +
+              '%"></i></div><img alt="Full axial plane" src="' +
+              uri(a.images[pos]) +
+              '"></div><small>Axial series ' +
+              a.series +
+              " · Instance " +
+              a.instances[pos] +
+              "</small></section>"
+            );
+          })
+          .join("");
+        const total = current().ax[level].images.length;
+        $("dpos").textContent =
+          total === 1
+            ? "Single verified axial plane"
+            : ["Inferior", "Center", "Superior"][detailPlane];
+        $("dprev").disabled = detailPlane === 0;
+        $("dnext").disabled = detailPlane === total - 1;
+      }
+      function groups(r) {
+        let mode = $("mode").value,
+          anchor = G.indexOf(entry(level));
+        if (anchor < 0) anchor = r.call[level];
+        return mode === "around"
+          ? [anchor - 1, anchor + 1]
+          : mode === "lower"
+            ? [0, 1]
+            : [1, 2];
+      }
+      function draw() {
+        const r = current(),
+          l = level,
+          a = r.ax[l],
+          blind = $("blind").checked;
+        if (!blind) expose();
+        $("reveal").hidden = !blind;
+        $("study").value = study;
+        $("progress").textContent =
+          L.filter((_, i) => entry(i)).length + " / 5 recorded";
+        $("map").innerHTML =
+          '<img src="' +
+          uri(r.sag) +
+          '" alt="Full sagittal lumbar overview">' +
+          r.xy
+            .map(
+              (p, i) =>
+                '<button class="mark ' +
+                (i % 2 ? "left-label " : "") +
+                (i === l ? "active" : "") +
+                '" style="left:' +
+                100 * p[0] +
+                "%;top:" +
+                100 * p[1] +
+                '%" data-level="' +
+                i +
+                '"><span>' +
+                L[i] +
+                "</span></button>",
+            )
+            .join("");
+        $("rows").innerHTML = L.map((n, i) => {
+          const ax = r.ax[i];
+          return (
+            '<button class="row ' +
+            (i === l ? "sel" : "") +
+            '" data-level="' +
+            i +
+            '">' +
+            (ax ? '<img src="' + uri(ax.images[mid(ax)]) + '" alt="">' : '<span class="missing-plane">No axial</span>') +
+            "<span><b>" +
+            n +
+            "</b><small>" +
+            (blind || i !== l ? "" : "Model · " + G[r.call[i]]) +
+            '</small></span><span class="state">' +
+            (entry(i) || "Unread") +
+            "</span></button>"
+          );
+        }).join("");
+        document
+          .querySelectorAll("[data-level]")
+          .forEach((b) => (b.onclick = () => selectLevel(+b.dataset.level)));
+        $("axTitle").textContent = L[l];
+        $("ax").innerHTML = a
+          ? '<img class="aximg" alt="Full axial T2 plane" src="' +
+            uri(a.images[plane]) +
+            '">'
+          : '<div class="na">Axial level could not be verified.</div>';
+        $("slice").textContent = a
+          ? "Plane " + (plane + 1) + " of " + a.images.length
+          : "No plane";
+        $("prev").disabled = !a || plane === 0;
+        $("next").disabled = !a || plane === a.images.length - 1;
+        $("source").textContent = a
+          ? "Series " +
+            a.series +
+            " · Instance " +
+            a.instances[plane] +
+            " · RSNA landmark level"
+          : "Source series needed for this level.";
+        $("choices").innerHTML = "";
+        [...G, ins].forEach((v) => {
+          const b = document.createElement("button");
+          b.textContent = v;
+          b.classList.toggle("active", entry(l) === v);
+          b.onclick = () => save(v);
+          $("choices").append(b);
+        });
+        $("readerstatus").textContent = entry(l)
+          ? "Recorded · " + entry(l)
+          : "Unread";
+        $("assist").hidden = blind;
+        $("assist").innerHTML =
+          "<h3>Fixed model · " +
+          G[r.call[l]] +
+          "</h3><small>" +
+          G.map(
+            (g, i) => g + " " + (r.score[l][i] * 100).toFixed(1) + "%",
+          ).join(" · ") +
+          "<br>Severe threshold 50% · Equal weights</small>" +
+          (entry(l)
+            ? "<details><summary>Reveal study reference</summary><p>RSNA grade · " +
+              G[r.ref[l]] +
+              "</p></details>"
+            : "");
+        $("why").textContent = blind
+          ? "Reveal this level to compare neighboring grades."
+          : L[l] +
+            " · " +
+            (a?.images.length === 3
+              ? "Three axial planes"
+              : a
+                ? "Single axial plane"
+                : "No axial match") +
+            " + sagittal · Model/reference agreement";
+        if (!blind && $("mode").value === "around") {
+          const anchor = entry(l);
+          $("why").textContent += G.includes(anchor)
+            ? " · Relative to your " + anchor.toLowerCase() + " grade"
+            : " · Relative to the model's " + G[r.call[l]].toLowerCase() + " grade";
+        }
+        $("refs").hidden = blind;
+        $("groups").innerHTML = groups(r)
+          .map((g) => {
+            if (g < 0 || g > 2)
+              return (
+                '<div><h3>Scale endpoint</h3><p class="empty">No ' +
+                (g < 0 ? "lower" : "higher") +
+                " grade on this scale.</p></div>"
+              );
+            const ids = r.neighbors[l][g];
+            return (
+              '<div class="group"><h3>' +
+              G[g] +
+              "</h3><small>" +
+              ids.length +
+              " shown</small>" +
+              ids
+                .map((j) => {
+                  const n = D.bank[j];
+                  return (
+                    '<button class="refitem" data-ref="' +
+                    j +
+                    '"><img alt="" src="' +
+                    uri(n.ax[l].images[mid(n.ax[l])]) +
+                    '"><span><b>' +
+                    n.id +
+                    "</b><small>" +
+                    L[l] +
+                    " · " +
+                    G[g] +
+                    "</small></span></button>"
+                  );
+                })
+                .join("") +
+              (!ids.length
+                ? '<p class="empty">' +
+                  (a
+                    ? "No eligible reference at this level."
+                    : "Verified query axial plane unavailable.") +
+                  "</p>"
+                : "") +
+              "</div>"
+            );
+          })
+          .join("");
+        document
+          .querySelectorAll("[data-ref]")
+          .forEach((b) => (b.onclick = () => compare(b.dataset.ref)));
+      }
+      D.q.forEach((r, i) => $("study").add(new Option("MRI " + r.id, i)));
+      $("study").onchange = (e) => {
+        study = +e.target.value;
+        selectLevel(level);
+      };
+      $("reveal").onclick = () => {
+        $("blind").checked = false;
+        draw();
+      };
+      $("mode").onchange = draw;
+      $("blind").onchange = draw;
+      $("prev").onclick = () => {
+        plane--;
+        draw();
+      };
+      $("next").onclick = () => {
+        plane++;
+        draw();
+      };
+      $("close").onclick = () => $("dialog").close();
+      $("dprev").onclick = () => {
+        detailPlane--;
+        drawDialog();
+      };
+      $("dnext").onclick = () => {
+        detailPlane++;
+        drawDialog();
+      };
+      function worksheet() {
+        const r = current();
+        return [
+          "Research reader worksheet",
+          "Study " + r.id,
+          "Central canal only. Limited image excerpts.",
+          "",
+          ...L.map((n, i) => {
+            const v = notes[r.id]?.[i];
+            return v
+              ? n +
+                  " | First: " +
+                  v.first +
+                  " (" +
+                  (v.tracked
+                    ? v.firstBlind
+                      ? "before assistance"
+                      : "after assistance was shown"
+                    : "historical entry, exposure untracked") +
+                  ") | Final: " +
+                  v.final
+              : n + " | Unread";
+          }),
+        ].join("\n");
+      }
+      $("export").onclick = () => {
+        const r = current();
+        const u = URL.createObjectURL(
+          new Blob([worksheet()], { type: "text/plain;charset=utf-8" }),
+        );
+        const link = document.createElement("a");
+        link.href = u;
+        link.download = "reader-" + r.id + ".txt";
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(u), 1000);
+      };
+      $("blind").checked = true;
+      selectLevel(level);
+    </script>
+  </body>
+</html>

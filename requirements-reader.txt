@@ -1,0 +1,7 @@
+numpy
+pandas
+opencv-python
+pydicom
+scikit-image
+requests
+websocket-client
