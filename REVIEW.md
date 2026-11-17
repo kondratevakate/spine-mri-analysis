@@ -58,3 +58,5 @@ Record wrong-level selections, use of adjacent slices, first-to-final grade chan
 | Study 1269700501, L4/L5 | Three query planes. Three moderate and five severe reference cards. The paired view changes both axial instance numbers together and preserves sagittal context. |
 | Study 953639220, L3/L4 | One verified query plane. Five moderate cards and no severe card. The paired view stays on the matched center planes. |
 | Record, reveal, hide, change levels, reload | First and final judgments remain distinct. A previously exposed level is marked as assisted at first entry. Other unread levels remain unread. All five rows fit the 1280 by 720 review viewport. |
+
+The independent reviewer repeated these checks in a fresh browser profile after the fixes. It confirmed a blind default, level-specific reveal, both orderings of first entry and assistance in exported worksheets, and five moderate versus zero severe references for the single-plane fixture. It closed the blind-reading blocker. This was a browser walkthrough by Codex; practicing radiologists have not yet evaluated similarity or reporting utility.
