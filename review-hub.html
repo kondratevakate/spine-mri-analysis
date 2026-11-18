@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lumbar MRI Review</title>
+<style>
+:root{--bg:#0f161d;--card:#18222c;--ink:#e8eef3;--mute:#9fb0bf;--line:#2c3a47;--acc:#3fe0d0}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f6f7f9;--card:#fff;--ink:#17202a;--mute:#5b6773;--line:#d9dee4;--acc:#1f8a70}}
+:root[data-theme="light"]{--bg:#f6f7f9;--card:#fff;--ink:#17202a;--mute:#5b6773;--line:#d9dee4;--acc:#1f8a70}
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.4 "Segoe UI",system-ui,sans-serif;display:flex;flex-direction:column}
+header{display:flex;align-items:center;gap:18px;padding:10px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+h1{font-size:17px;margin:0;font-weight:700}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav button{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:7px 12px;font:inherit;cursor:pointer}
+nav button[aria-selected="true"]{border-color:var(--acc);color:var(--acc);font-weight:650}
+.hint{color:var(--mute);font-size:12.5px;margin-left:auto;max-width:520px}
+main{flex:1;position:relative;min-height:0}
+iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:none;background:var(--bg)}
+iframe.on{display:block}
+.loading{position:absolute;inset:0;display:grid;place-items:center;color:var(--mute)}
+@media(max-width:700px){.hint{margin-left:0}}
+</style>
+</head>
+<body>
+<header>
+<h1>Lumbar MRI review</h1>
+<nav role="tablist" id="tabs"></nav>
+<div class="hint" id="hint"></div>
+</header>
+<main id="main"><div class="loading" id="loading">Loading…</div></main>
+<script>
+// Each view is a separate local page; heavy ones (reader ~120 MB) load only when opened.
+const VIEWS=[
+ {id:"budget",label:"1 · Error budget",src:"pipeline.html",hint:"Where the doctor can be misled, step by step, with data and literature reference points."},
+ {id:"case",label:"2 · Case walkthrough",src:"case-1269700501.html",hint:"One study from MRI to a draft report: automatic levels versus radiologist landmarks."},
+ {id:"reader",label:"3 · Reader panel",src:"spine-reader-v2.html",hint:"Five levels at once; compare a level with correct cases one grade lower and higher. Large file: first load takes a while."},
+ {id:"3d",label:"4 · 3D spine",src:"spine-3d.html",hint:"TotalSegmentator 3D model of one study; focus a level and see it on the MRI."}
+];
+const tabs=document.getElementById("tabs"),main=document.getElementById("main"),hint=document.getElementById("hint"),loading=document.getElementById("loading");
+const frames={};
+function show(id){
+  const v=VIEWS.find(x=>x.id===id)||VIEWS[0];
+  [...tabs.children].forEach(b=>b.setAttribute("aria-selected",b.dataset.id===v.id));
+  Object.values(frames).forEach(f=>f.classList.remove("on"));
+  hint.textContent=v.hint;
+  if(!frames[v.id]){
+    const f=document.createElement("iframe");f.title=v.label;f.src=v.src;
+    loading.textContent="Loading "+v.label+"…";loading.style.display="grid";
+    f.onload=()=>{loading.style.display="none"};
+    f.onerror=()=>{loading.textContent="Could not load "+v.src+". Rebuild it (see README) and reload."};
+    frames[v.id]=f;main.appendChild(f);
+  }else loading.style.display="none";
+  frames[v.id].classList.add("on");
+  try{history.replaceState(null,"","#"+v.id)}catch(e){}
+}
+VIEWS.forEach(v=>{const b=document.createElement("button");b.textContent=v.label;b.dataset.id=v.id;b.setAttribute("role","tab");b.onclick=()=>show(v.id);tabs.appendChild(b)});
+show(location.hash.slice(1)||"budget");
+</script>
+</body>
+</html>
