@@ -1,5 +1,13 @@
 # Physician workflow and critical review
 
+## Disc-mask level localization and canal-width proxy, 18-19 November 2026
+
+`disc_levels.py` names lumbar levels from TotalSegmentator total_mr disc masks counted upwards from the sacrum (fragments closer than 8 mm along SI are merged). On a random sample of 77 test studies, 8 (10%) could not be reconstructed because of irregular slice spacing. On the 69 processed random studies (344 levels; one RSNA placeholder landmark excluded) the disc rule named the RSNA level in 332/344 (96.5%) versus 313/344 (91.0%) for the old automatic localizer; median absolute SI error 3.9 versus 6.1 mm. Two studies (2494588880, 3427409235) shift the whole count by one level because the lowest disc was cut by the sacrum rule or not segmented: a wrong-level report in 2 of 69 patients. Four isolated L4/L5 disagreements look like an artefact of the SI-nearest scoring rule under lordosis on visual QC. Three studies chosen earlier for large old-localizer errors scored 15/15 versus 4/15 and are reported separately.
+
+`canal_width.py` measures CSF width along the disc plane relative to the same patient's mid-vertebral width. On 11 test studies moderate/severe levels measured 0 in 6/9 and normal levels in 5/46 (4 at L5/S1, epidural fat). It is a hypothesis-level proxy; its rules were changed only for geometry failures seen on QC, and it should be replaced by a canal mask trained on SPIDER (Zenodo 10159290, CC BY 4.0: vertebra, disc and spinal-canal masks plus per-disc degenerative gradings).
+
+`anatomy_leakage.py` showed that whole-image retrieval matches acquisition protocol (3.9x chance) more than severe stenosis (2.7x); crop HOG matches severe at 9.5x; subtracting the patient's own mean reduces same-patient matches from 13% to 1%.
+
 ## Oracle-localization re-evaluation and error budget, 18 November 2026
 
 `relocalize.py` re-cut the 48 mm sagittal crops at RSNA landmarks and re-evaluated the sagittal-crop central-canal classifier (output in `work/relocalized/`). The rebuilt images reproduced the cached automatic crops exactly (max absolute difference 0). 13 RSNA landmarks are placeholders at pixel (5, 5) and project to the image corner; they are excluded, leaving 1,511 of 1,540 labelled test levels. After removing them the marker audit still stands: median 7.7 mm, 95th percentile 22.3 mm, 101 levels above 20 mm. Only 1 of the 81 severe levels is among those 101.

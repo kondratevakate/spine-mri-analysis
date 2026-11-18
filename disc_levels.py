@@ -97,6 +97,15 @@ def centroids(folder):
         ras = affine[:3, :3] @ idx.mean(0) + affine[:3, 3]
         comps.append(ras)
     comps.sort(key=lambda r: r[2])  # inferior to superior
+    # One disc can fall apart into two components (seen on QC: 1647658981); merge centroids
+    # closer than 8 mm along the superior-inferior axis, so a fragment does not shift the count.
+    merged = []
+    for c in comps:
+        if merged and abs(c[2] - merged[-1][-1][2]) < 8:
+            merged[-1].append(c)
+        else:
+            merged.append([c])
+    comps = [np.mean(g, axis=0) for g in merged]
     sac_top = None
     if sacrum.any():
         idx = np.argwhere(sacrum)
