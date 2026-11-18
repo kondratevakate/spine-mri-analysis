@@ -1,5 +1,21 @@
 # Lumbar MRI reader review
 
+**18 November update.** Open **spine-3d.html** for the single-study TotalSegmentator prototype. Drag to rotate, use the wheel to zoom, choose a disc level and press **Focus level**. The adjacent large image supports zoom and pan. Its **Segmentation** checkbox overlays the original masks, and **Axial** opens an independently acquired axial T2 plane. All assets are embedded.
+
+A source-coordinate audit found that the earlier automatic L4/L5 marker in study 1269700501 was displaced by 31.0 mm from the RSNA reference. The updated V2 reader uses dataset reference locations, with missing locations omitted. Its older model scores still reflect the original crops. The audit and 3D limitations are recorded in [REVIEW.md](REVIEW.md).
+
+To reproduce the 3D example, install TotalSegmentator 2.18.0 in an environment supporting its native libraries, then run the following from the repository root. This workstation used Ubuntu/WSL because Windows application control blocked SimpleITK and VTK. Data paths in the surface builder support the existing Windows and WSL cache mounts.
+
+```text
+python prepare_volume.py RSNA_CACHE 1269700501 work/volume-1269700501
+python run_segmentation.py
+python fetch_3d_assets.py
+python build_3d.py work/volume-1269700501 spine-3d.html
+python review_3d.py spine-3d.html SCREENSHOT_DIRECTORY
+```
+
+The 3D surfaces come from total_mr, task 852, at 3 mm resolution. Native data contain 15 sagittal slices with 4.8 mm inter-slice spacing. The surfaces are smoothed for display; the original masks supply the 2D outlines. The example demonstrates one study. Detailed posterior elements, canal narrowing, accurate measurements and automatic vertebral numbering require separate evaluation. [TotalSegmentator implementation](https://github.com/wasserth/TotalSegmentator)
+
 Open **spine-reader-v2.html** from the local review package in Edge, Firefox or Chrome. It embeds the images and works offline. The earlier **spine-review.html** is the adjustable ensemble laboratory. The two files are independent. The repository contains the templates, builders, review findings and browser checks. The separately packaged HTML files contain RSNA-derived images.
 
 ## Five-minute walkthrough

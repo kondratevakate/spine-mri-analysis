@@ -2,6 +2,8 @@
 
 ## Current review candidate
 
+On 18 November, a landmark audit found a 31 mm L4/L5 displacement in the initial case. The reader now displays RSNA reference coordinates, and a single-study `spine-3d.html` shows actual TotalSegmentator masks with interactive level focus. See the new opening sections of README and REVIEW. Original classifier inputs and retrieval features need re-evaluation after localization review. The 3D viewer has passed local interaction checks and source-plane visual inspection.
+
 The source repository contains the original ensemble workbench and a second, five-level physician reader. Open the packaged `spine-reader-v2.html` for the physician review. See [README.md](README.md) for entry points and [REVIEW.md](REVIEW.md) for the regulatory comparison, clinical limits, measured grade confusions, matching method and independent usability findings. The sections below describe the first workbench.
 
 ## Objective

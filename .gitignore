@@ -4,5 +4,6 @@ work/*
 !work/review_panel.py
 spine-review.html
 spine-reader-v2.html
+spine-3d.html
 __pycache__/
 *.pyc

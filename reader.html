@@ -110,10 +110,9 @@
       }
       .layout {
         display: grid;
-        grid-template-columns: minmax(290px, 0.98fr) minmax(
-            245px,
-            0.8fr
-          ) minmax(340px, 1.1fr);
+        grid-template-columns:
+          minmax(290px, 0.98fr) minmax(245px, 0.8fr)
+          minmax(340px, 1.1fr);
         gap: 12px;
         align-items: start;
       }
@@ -404,10 +403,9 @@
       }
       @media (max-width: 1100px) {
         .layout {
-          grid-template-columns: minmax(245px, 1fr) minmax(
-              200px,
-              0.85fr
-            ) minmax(285px, 1fr);
+          grid-template-columns:
+            minmax(245px, 1fr) minmax(200px, 0.85fr)
+            minmax(285px, 1fr);
         }
         .refitem {
           gap: 4px;
@@ -486,10 +484,9 @@
       }
       @media (min-width: 851px) {
         .layout {
-          grid-template-columns: minmax(390px, 1.4fr) minmax(
-              235px,
-              0.76fr
-            ) minmax(310px, 1fr);
+          grid-template-columns:
+            minmax(390px, 1.4fr) minmax(235px, 0.76fr)
+            minmax(310px, 1fr);
         }
         .overviewStack {
           display: grid;
@@ -529,10 +526,9 @@
       }
       @media (min-width: 851px) and (max-width: 1150px) {
         .layout {
-          grid-template-columns: minmax(315px, 1.2fr) minmax(
-              195px,
-              0.75fr
-            ) minmax(265px, 1fr);
+          grid-template-columns:
+            minmax(315px, 1.2fr) minmax(195px, 0.75fr)
+            minmax(265px, 1fr);
         }
         .row {
           grid-template-columns: 34px auto;
@@ -545,8 +541,21 @@
           font-size: 15px;
         }
       }
-      .mark.left-label span { position:absolute; right:100%; margin-right:4px; }
-      .missing-plane { grid-row:span 2; display:grid; place-items:center; min-height:40px; font-size:10px; color:#536770; background:#e8eff0; border-radius:3px; }
+      .mark.left-label span {
+        position: absolute;
+        right: 100%;
+        margin-right: 4px;
+      }
+      .missing-plane {
+        grid-row: span 2;
+        display: grid;
+        place-items: center;
+        min-height: 40px;
+        font-size: 10px;
+        color: #536770;
+        background: #e8eff0;
+        border-radius: 3px;
+      }
     </style>
   </head>
   <body>
@@ -569,7 +578,7 @@
           <section class="card dark">
             <div class="head">
               <h2>Sagittal overview</h2>
-              <small>T2/STIR · Estimated disc levels</small>
+              <small>T2/STIR · RSNA reference levels</small>
             </div>
             <div class="overview"><div class="map" id="map"></div></div>
           </section>
@@ -668,8 +677,8 @@
         ><button id="dnext">Next plane</button>
       </div>
       <small
-        >Markers indicate estimated sagittal level. Axial examples use the same
-        named level and relative stack position. These are independent
+        >Markers indicate projected RSNA reference locations. Axial examples use
+        the same named level and relative stack position. These are independent
         examinations.</small
       >
     </dialog>
@@ -762,11 +771,15 @@
               r.id +
               '</small><div class="pairimgs"><div class="pairmap"><img alt="Full sagittal overview" src="' +
               uri(r.sag) +
-              '"><i class="dot" style="left:' +
-              100 * xy[0] +
-              "%;top:" +
-              100 * xy[1] +
-              '%"></i></div><img alt="Full axial plane" src="' +
+              '">' +
+              (xy
+                ? '<i class="dot" style="left:' +
+                  100 * xy[0] +
+                  "%;top:" +
+                  100 * xy[1] +
+                  '%"></i>'
+                : "") +
+              '</div><img alt="Full axial plane" src="' +
               uri(a.images[pos]) +
               '"></div><small>Axial series ' +
               a.series +
@@ -809,20 +822,21 @@
           uri(r.sag) +
           '" alt="Full sagittal lumbar overview">' +
           r.xy
-            .map(
-              (p, i) =>
-                '<button class="mark ' +
-                (i % 2 ? "left-label " : "") +
-                (i === l ? "active" : "") +
-                '" style="left:' +
-                100 * p[0] +
-                "%;top:" +
-                100 * p[1] +
-                '%" data-level="' +
-                i +
-                '"><span>' +
-                L[i] +
-                "</span></button>",
+            .map((p, i) =>
+              p
+                ? '<button class="mark ' +
+                  (i % 2 ? "left-label " : "") +
+                  (i === l ? "active" : "") +
+                  '" style="left:' +
+                  100 * p[0] +
+                  "%;top:" +
+                  100 * p[1] +
+                  '%" data-level="' +
+                  i +
+                  '"><span>' +
+                  L[i] +
+                  "</span></button>"
+                : "",
             )
             .join("");
         $("rows").innerHTML = L.map((n, i) => {
@@ -833,7 +847,9 @@
             '" data-level="' +
             i +
             '">' +
-            (ax ? '<img src="' + uri(ax.images[mid(ax)]) + '" alt="">' : '<span class="missing-plane">No axial</span>') +
+            (ax
+              ? '<img src="' + uri(ax.images[mid(ax)]) + '" alt="">'
+              : '<span class="missing-plane">No axial</span>') +
             "<span><b>" +
             n +
             "</b><small>" +
@@ -883,7 +899,7 @@
           G.map(
             (g, i) => g + " " + (r.score[l][i] * 100).toFixed(1) + "%",
           ).join(" · ") +
-          "<br>Severe threshold 50% · Equal weights</small>" +
+          "<br>Severe threshold 50% · Equal weights<br>Original crop locations failed the landmark audit. These scores need re-evaluation.</small>" +
           (entry(l)
             ? "<details><summary>Reveal study reference</summary><p>RSNA grade · " +
               G[r.ref[l]] +
@@ -903,7 +919,9 @@
           const anchor = entry(l);
           $("why").textContent += G.includes(anchor)
             ? " · Relative to your " + anchor.toLowerCase() + " grade"
-            : " · Relative to the model's " + G[r.call[l]].toLowerCase() + " grade";
+            : " · Relative to the model's " +
+              G[r.call[l]].toLowerCase() +
+              " grade";
         }
         $("refs").hidden = blind;
         $("groups").innerHTML = groups(r)

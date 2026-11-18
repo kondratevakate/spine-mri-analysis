@@ -1,5 +1,21 @@
 # Physician workflow and critical review
 
+## Marker audit and 3D update, 18 November 2026
+
+The earlier visual review failed to detect incorrect automatic point placement. An independent reconstruction of study 1269700501 from DICOM orientation, position and pixel spacing reproduced the reference-point coordinates, and measured automatic-point displacements of 19.8, 25.0, 23.4, 31.0 and 34.1 mm across L1/L2 through L5/S1. The previous claims that correct interaction and the displayed model decision supported the named level were too strong.
+
+Across 308 test studies, 1,515 of 1,540 levels have a usable reference projection. Median in-plane automatic/reference displacement is 7.75 mm, the 95th percentile is 22.62 mm, and 105 displacements exceed 20 mm. This measures disagreement with the recorded dataset landmarks, including any reference annotation errors. It is not a clinical localization-validation endpoint.
+
+The current reader uses RSNA reference projections and suppresses missing locations. The classifiers, embeddings, and frozen agreement filter retain their original automatically positioned inputs. Their scores need re-evaluation with reviewed localization. Correcting a displayed marker does not repair those inputs.
+
+The new single-study 3D viewer reconstructs the native sagittal volume with a checked affine, segments vertebral regions, discs and sacrum using TotalSegmentator 2.18.0 total_mr task 852 at 3 mm, and extracts smoothed display surfaces. The native voxel dimensions are 0.3646 by 0.3646 by 4.8000 mm. Segmentations were visually compared with three native sagittal planes. Coarse boundaries and limited inter-slice resolution remain visible. The result covers one local MRI and has no independent reference segmentation.
+
+The downloaded checkpoint SHA-256 is `8357596afa397d8ac128cf7121b5cc882a140f47d6b7d8740b01a9d18c037d8d`. Inference ran on CPU with two threads in Ubuntu/WSL. Windows application control rejected the native SimpleITK and VTK libraries. The isolated Windows environment was retained as an unsuccessful setup attempt. Mesh export checks finite vertices and outward winding. The final enlarged view was inspected after correcting the marching-cubes face orientation.
+
+Each 3D marker uses the RSNA source point in patient coordinates. The main sagittal image is the annotation-bearing instance 7 of series 3918685698. It shares the segmentation geometry. The separate axial series is selected using its own landmarks and has not been registered into the 3D volume. The viewer supports rotation, zoom, level focus, source-image zoom and optional mask contours. The exported browser check exercises these interactions. The independent doctor-oriented review below concerns V2 and predates this 3D extension.
+
+The sections below preserve the prior review findings and should be read in light of this correction.
+
 **Disposition, 17 November 2026.** Ready for a moderated prototype review with a radiologist. Diagnostic sign-off, clinical deployment, and benefit claims require additional evidence. The reader task is to record the imaging appearance of the central canal at a named disc level, or explain that the available excerpts are insufficient.
 
 ## Work backwards from the decision

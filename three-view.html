@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Spine · 3D anatomy review</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #ecf0f2;
+        color: #19313b;
+        font:
+          14px/1.4 "Segoe UI",
+          Arial,
+          sans-serif;
+      }
+      header {
+        padding: 17px 25px;
+        background: #142b35;
+        color: #f3f7f8;
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      header strong {
+        font-size: 22px;
+        letter-spacing: -0.4px;
+      }
+      header span {
+        color: #afc8cc;
+      }
+      header small {
+        margin-left: auto;
+        color: #b7d6cf;
+      }
+      main {
+        padding: 18px 24px;
+        max-width: 1800px;
+        margin: auto;
+      }
+      .top {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+      .top span {
+        color: #5d737c;
+        font-size: 12px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1.18fr 1fr;
+        gap: 14px;
+      }
+      .card {
+        border: 1px solid #cbd9dd;
+        background: white;
+        border-radius: 11px;
+        overflow: hidden;
+      }
+      .bar {
+        padding: 12px 15px;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        align-items: center;
+      }
+      .bar h2 {
+        font-size: 17px;
+        margin: 0;
+      }
+      .dark {
+        color: #edf7f8;
+        background: #10232c;
+        border-color: #213e49;
+      }
+      .dark .bar {
+        background: #15303b;
+      }
+      button,
+      select {
+        font: inherit;
+        border: 1px solid #aebfc4;
+        border-radius: 6px;
+        padding: 7px 11px;
+        background: white;
+        color: #1c3e49;
+        cursor: pointer;
+      }
+      button:hover {
+        border-color: #268d7d;
+      }
+      button:focus-visible,
+      input:focus-visible {
+        outline: 3px solid #3a9ae8;
+      }
+      button.active {
+        background: #146f64;
+        border-color: #146f64;
+        color: white;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+      .dark button {
+        background: #23424e;
+        color: #ecf8f6;
+        border-color: #47616a;
+      }
+      .dark button.active {
+        background: #257b6d;
+        border-color: #71d1b9;
+      }
+      .toolbar {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .view {
+        height: 510px;
+        position: relative;
+        background: radial-gradient(ellipse at 50% 50%, #21343e, #0b1820 80%);
+        touch-action: none;
+      }
+      .view canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      .hint {
+        position: absolute;
+        left: 14px;
+        top: 12px;
+        color: #bed0d3;
+        font-size: 12px;
+        pointer-events: none;
+      }
+      .legend {
+        position: absolute;
+        left: 15px;
+        bottom: 12px;
+        display: flex;
+        gap: 15px;
+        font-size: 11px;
+        color: #b9d0d4;
+        pointer-events: none;
+      }
+      .legend i {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-right: 5px;
+      }
+      .labels {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .tag {
+        position: absolute;
+        pointer-events: auto;
+        border: 1px solid #70958f;
+        background: #14303dda;
+        color: #e4f7ef;
+        padding: 4px 8px;
+        font-size: 12px;
+        transform: translate(12px, -50%);
+        white-space: nowrap;
+      }
+      .tag.active {
+        background: #9ce7d0;
+        color: #0c3e35;
+        border-color: #9ce7d0;
+      }
+      .footbar {
+        padding: 12px 15px;
+        border-top: 1px solid #27454e;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        font-size: 12px;
+      }
+      .footbar input {
+        accent-color: #80d7bb;
+        vertical-align: middle;
+      }
+      .footbar input[type="range"] {
+        width: 100px;
+      }
+      .levels {
+        display: flex;
+        gap: 7px;
+        margin: 15px 0;
+      }
+      .levels button {
+        flex: 1;
+        padding: 10px;
+        font-weight: 650;
+      }
+      .scanview {
+        height: 510px;
+        position: relative;
+        background: #070f13;
+        touch-action: none;
+      }
+      .scanview canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      .scanhelp {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        padding: 4px 7px;
+        background: #142b35d9;
+        color: #ccdedf;
+        font-size: 12px;
+        pointer-events: none;
+      }
+      .source {
+        padding: 10px 15px;
+        min-height: 59px;
+        font-size: 12px;
+        color: #4c6571;
+      }
+      .source b {
+        color: #24534d;
+      }
+      .small {
+        font-size: 12px;
+        color: #516b76;
+      }
+      .note {
+        padding: 13px 16px;
+        border: 1px solid #d3dfe2;
+        border-radius: 9px;
+        background: white;
+      }
+      .note p {
+        margin: 5px 0;
+      }
+      .note summary {
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .note a {
+        color: #176a70;
+      }
+      .status {
+        color: #aef0d6;
+      }
+      .axis {
+        position: absolute;
+        right: 13px;
+        bottom: 12px;
+        font-size: 11px;
+        color: #b2c8ce;
+        pointer-events: none;
+      }
+      #failure {
+        color: #ffe3b0;
+        padding: 15px;
+        display: none;
+      }
+      .arrows {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      #slice {
+        font-size: 12px;
+        color: #56717a;
+      }
+      input {
+        cursor: pointer;
+      }
+      #qc {
+        color: #cceddc;
+      }
+      .zoomstatus {
+        font-variant-numeric: tabular-nums;
+      }
+      @media (min-height: 950px) {
+        .view,
+        .scanview {
+          height: 600px;
+        }
+      }
+      @media (max-width: 950px) {
+        main {
+          padding: 12px;
+        }
+        .grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .view,
+        .scanview {
+          height: 430px;
+        }
+        .bar {
+          padding: 10px;
+          flex-wrap: wrap;
+        }
+        .toolbar button {
+          padding: 6px 8px;
+        }
+        .levels button {
+          padding: 8px 3px;
+        }
+        .footbar {
+          gap: 9px;
+        }
+      }
+      @media (max-width: 650px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .view,
+        .scanview {
+          height: 420px;
+        }
+        header span {
+          display: none;
+        }
+        .top {
+          flex-wrap: wrap;
+        }
+        .levels {
+          position: sticky;
+          top: 0;
+          z-index: 5;
+          background: #ecf0f2;
+          padding: 5px 0;
+          margin: 0 0 10px;
+        }
+      }
+    </style>
+    <script type="importmap">
+      __IMPORTS__
+    </script>
+  </head>
+  <body>
+    <header>
+      <strong>Spine</strong><span>3D anatomy review</span
+      ><small>RSNA MRI · Research prototype</small>
+    </header>
+    <main>
+      <div class="top">
+        <b id="study"></b><span>Actual MRI segmentation · TotalSegmentator</span
+        ><span id="active">L4/L5</span>
+      </div>
+      <nav class="levels" id="levels" aria-label="Disc level"></nav>
+      <div class="grid">
+        <section class="card dark">
+          <div class="bar">
+            <h2>3D lumbar anatomy</h2>
+            <div class="toolbar">
+              <button id="reset">Whole spine</button
+              ><button id="focus">Focus level</button
+              ><button id="front">Front</button><button id="side">Side</button>
+            </div>
+          </div>
+          <div class="view" id="view">
+            <div class="hint">
+              Drag to rotate · Wheel to zoom · Right-drag to move
+            </div>
+            <div id="failure"></div>
+            <div class="labels" id="labels"></div>
+            <div class="legend">
+              <span><i style="background: #ddc394"></i>Vertebrae</span
+              ><span><i style="background: #63d7b7"></i>Discs</span
+              ><span><i style="background: #9aaedf"></i>Sacrum</span>
+            </div>
+            <div class="axis">Patient coordinates · mm</div>
+          </div>
+          <div class="footbar">
+            <label
+              >Bones
+              <input
+                id="opacity"
+                type="range"
+                min="15"
+                max="100"
+                value="100" /></label
+            ><label><input id="discs" type="checkbox" checked /> Discs</label
+            ><label><input id="plane" type="checkbox" /> MRI plane</label
+            ><span id="qc">RSNA reference points</span>
+          </div>
+        </section>
+        <section class="card">
+          <div class="bar">
+            <h2 id="sliceTitle">L4/L5 · Source MRI</h2>
+            <div class="toolbar">
+              <button id="sag" class="active">Sagittal</button
+              ><button id="axial">Axial</button>
+            </div>
+          </div>
+          <div class="scanview" id="scanview">
+            <canvas id="scan"></canvas>
+            <div class="scanhelp">Wheel to zoom · Drag to move</div>
+          </div>
+          <div class="bar">
+            <div class="toolbar">
+              <button id="fullImage">Full image</button
+              ><button id="zoomImage">Enlarge level</button
+              ><label id="contourLabel"
+                ><input id="contours" type="checkbox" checked />
+                Segmentation</label
+              >
+            </div>
+            <div class="arrows">
+              <button id="prev">‹</button><span id="slice"></span
+              ><button id="next">›</button>
+            </div>
+          </div>
+          <div class="source" id="source"></div>
+        </section>
+      </div>
+      <details class="note">
+        <summary>Image geometry and marker check</summary>
+        <p class="small" id="geometry"></p>
+        <p class="small">
+          The green points are RSNA reference annotations in patient
+          coordinates. The 3D surfaces come from TotalSegmentator total_mr at 3
+          mm. Vertebrae are represented as one structure; vertebral numbering is
+          supplied by the dataset landmarks. Masks and contours need specialist
+          review.
+        </p>
+        <p class="small">
+          Sagittal images and the 3D model share the same DICOM geometry. Axial
+          T2 is a separately acquired series selected using bilateral same-level
+          landmarks. The axial image is shown for inspection; a registered axial
+          plane has not been established on the 3D model.
+        </p>
+        <p class="small">
+          The earlier automatic landmark at L4/L5 was displaced by about 31 mm
+          from the reference. The older classification scores used automatically
+          positioned crops and require re-evaluation after that localization
+          error.
+        </p>
+      </details>
+    </main>
+    <script id="volume" type="application/json">
+      __VOLUME__
+    </script>
+    <script type="module">
+      import * as THREE from "three";
+      import { OrbitControls } from "controls";
+      const D = JSON.parse(document.getElementById("volume").textContent),
+        $ = (id) => document.getElementById(id);
+      const center = new THREE.Vector3().fromArray(D.landmarks[2].ras);
+      const toV = (a) => new THREE.Vector3().fromArray(a).sub(center);
+      const labels = [],
+        marks = [],
+        meshes = {};
+      let selected = 3,
+        mode = "sag",
+        axialIndex = 1,
+        zoom = 1,
+        pan = { x: 0, y: 0 },
+        imageLoaded = false,
+        pendingEnlarge = false;
+      const bounds = D.meshes.vertebrae.bounds,
+        extent = bounds[1][2] - bounds[0][2];
+      let needsRender = true;
+      const scene = new THREE.Scene(),
+        camera = new THREE.PerspectiveCamera(35, 1, 0.1, 2000);
+      camera.up.set(0, 0, 1);
+      const renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+        preserveDrawingBuffer: true,
+      });
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+      renderer.setClearColor(0x10232c, 0);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      $("view").prepend(renderer.domElement);
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.13;
+      controls.minDistance = 25;
+      controls.maxDistance = 950;
+      controls.target.set(0, 0, 0);
+      scene.add(new THREE.HemisphereLight(0xe4efff, 0x273244, 1.8));
+      for (const p of [
+        [200, 200, 350],
+        [-200, -100, 200],
+      ]) {
+        const light = new THREE.DirectionalLight(0xffffff, 1.5);
+        light.position.set(...p);
+        scene.add(light);
+      }
+      function typed(s, Class) {
+        const bytes = Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+        return new Class(bytes.buffer);
+      }
+      const colors = {
+        vertebrae: 0xdec69d,
+        intervertebral_discs: 0x69d6b7,
+        sacrum: 0x9eafdc,
+      };
+      for (const [name, data] of Object.entries(D.meshes)) {
+        const geometry = new THREE.BufferGeometry();
+        const verts = typed(data.vertices, Float32Array);
+        for (let i = 0; i < verts.length; i += 3) {
+          verts[i] -= center.x;
+          verts[i + 1] -= center.y;
+          verts[i + 2] -= center.z;
+        }
+        geometry.setAttribute("position", new THREE.BufferAttribute(verts, 3));
+        geometry.setIndex(
+          new THREE.BufferAttribute(typed(data.faces, Uint32Array), 1),
+        );
+        geometry.computeVertexNormals();
+        const material = new THREE.MeshStandardMaterial({
+          color: colors[name],
+          roughness: 0.65,
+          metalness: 0,
+          transparent: name !== "intervertebral_discs",
+          opacity: 1,
+          side: THREE.FrontSide,
+          depthWrite: true,
+        });
+        const mesh = new THREE.Mesh(geometry, material);
+        meshes[name] = mesh;
+        scene.add(mesh);
+      }
+      D.landmarks.forEach((p, i) => {
+        const dot = new THREE.Mesh(
+          new THREE.SphereGeometry(2.2, 16, 12),
+          new THREE.MeshBasicMaterial({ color: 0xb3ffe1, depthTest: false }),
+        );
+        dot.position.copy(toV(p.ras));
+        dot.renderOrder = 12;
+        scene.add(dot);
+        marks.push(dot);
+        const b = document.createElement("button");
+        b.className = "tag";
+        b.textContent = p.level;
+        b.onclick = () => choose(i, true);
+        $("labels").append(b);
+        labels.push(b);
+        const tab = document.createElement("button");
+        tab.textContent = p.level;
+        tab.onclick = () => choose(i, false);
+        $("levels").append(tab);
+      });
+      const planeGeo = new THREE.BufferGeometry();
+      const corners = D.corners.map(toV);
+      planeGeo.setAttribute(
+        "position",
+        new THREE.Float32BufferAttribute(
+          corners.flatMap((p) => p.toArray()),
+          3,
+        ),
+      );
+      planeGeo.setIndex([0, 1, 2, 0, 2, 3]);
+      planeGeo.setAttribute(
+        "uv",
+        new THREE.Float32BufferAttribute([0, 1, 1, 1, 1, 0, 0, 0], 2),
+      );
+      planeGeo.computeVertexNormals();
+      const texture = new THREE.TextureLoader().load(
+        "data:image/jpeg;base64," + D.sag,
+        () => (needsRender = true),
+      );
+      texture.colorSpace = THREE.SRGBColorSpace;
+      const planeMesh = new THREE.Mesh(
+        planeGeo,
+        new THREE.MeshBasicMaterial({
+          map: texture,
+          side: THREE.DoubleSide,
+          transparent: true,
+          opacity: 0.67,
+          depthWrite: false,
+        }),
+      );
+      planeMesh.visible = false;
+      scene.add(planeMesh);
+      const box = new THREE.Box3();
+      Object.values(meshes).forEach((m) =>
+        box.union(new THREE.Box3().setFromObject(m)),
+      );
+      const wholeTarget = box.getCenter(new THREE.Vector3()),
+        radius = box.getSize(new THREE.Vector3()).length() / 2;
+      function whole() {
+        controls.target.copy(wholeTarget);
+        const direction = new THREE.Vector3(0.55, 1, 0.15).normalize();
+        camera.position
+          .copy(wholeTarget)
+          .addScaledVector(
+            direction,
+            (radius / Math.sin(THREE.MathUtils.degToRad(17.5))) * 1.12,
+          );
+        controls.update();
+      }
+      function focus() {
+        const target = toV(D.landmarks[selected].ras);
+        const direction = camera.position
+          .clone()
+          .sub(controls.target)
+          .normalize();
+        controls.target.copy(target);
+        camera.position.copy(target.clone().addScaledVector(direction, 190));
+        controls.update();
+        enlarge();
+      }
+      function orient(front) {
+        const target = controls.target.clone(),
+          dist = camera.position.distanceTo(target);
+        camera.position
+          .copy(target)
+          .add(
+            front
+              ? new THREE.Vector3(0, dist, 0)
+              : new THREE.Vector3(dist, 0, 0),
+          );
+        controls.update();
+      }
+      function choose(i, focusCamera) {
+        selected = i;
+        zoom = 1;
+        pan = { x: 0, y: 0 };
+        axialIndex = Math.floor((D.ax[i]?.images.length || 1) / 2);
+        $("active").textContent = D.landmarks[i].level;
+        $("sliceTitle").textContent = D.landmarks[i].level + " · Source MRI";
+        [...$("levels").children].forEach((b, j) =>
+          b.classList.toggle("active", i === j),
+        );
+        labels.forEach((b, j) => b.classList.toggle("active", i === j));
+        marks.forEach((m, j) => m.scale.setScalar(i === j ? 1.6 : 1));
+        loadImage();
+        if (focusCamera) focus();
+      }
+      const canvas = $("scan"),
+        ctx = canvas.getContext("2d");
+      let currentImage = new Image();
+      function loadImage() {
+        imageLoaded = false;
+        currentImage = new Image();
+        currentImage.onload = () => {
+          imageLoaded = true;
+          if (pendingEnlarge) {
+            pendingEnlarge = false;
+            enlarge();
+          } else drawImage();
+        };
+        const axial = D.ax[selected];
+        const contour = $("contours").checked;
+        currentImage.src =
+          mode === "sag"
+            ? "data:image/" +
+              (contour ? "png" : "jpeg") +
+              ";base64," +
+              (contour ? D.contours : D.sag)
+            : "data:image/jpeg;base64," + axial.images[axialIndex];
+        $("contourLabel").hidden = mode !== "sag";
+        $("prev").disabled = mode === "sag" || axialIndex === 0;
+        $("next").disabled =
+          mode === "sag" || axialIndex === axial.images.length - 1;
+        $("slice").textContent =
+          mode === "sag"
+            ? "Slice " + D.display_instance
+            : axialIndex + 1 + " / " + axial.images.length;
+        $("source").innerHTML =
+          mode === "sag"
+            ? "<b>RSNA reference · " +
+              D.landmarks[selected].level +
+              "</b><br>Sagittal T2/STIR · Series " +
+              D.series +
+              " · Instance " +
+              D.display_instance
+            : "<b>Axial T2 · " +
+              D.landmarks[selected].level +
+              "</b><br>Series " +
+              axial.series +
+              " · Instance " +
+              axial.instances[axialIndex] +
+              " · Independent axial acquisition";
+      }
+      function drawImage() {
+        if (!imageLoaded) return;
+        const w = canvas.clientWidth,
+          h = canvas.clientHeight,
+          dpr = Math.min(devicePixelRatio, 2);
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.fillStyle = "#070f13";
+        ctx.fillRect(0, 0, w, h);
+        const scale =
+            Math.min(
+              w / currentImage.naturalWidth,
+              h / currentImage.naturalHeight,
+            ) * zoom,
+          iw = currentImage.naturalWidth * scale,
+          ih = currentImage.naturalHeight * scale,
+          ox = (w - iw) / 2 + pan.x,
+          oy = (h - ih) / 2 + pan.y;
+        ctx.drawImage(currentImage, ox, oy, iw, ih);
+        if (mode === "sag") {
+          D.landmarks.forEach((p, i) => {
+            let x = ox + p.uv[0] * iw,
+              y = oy + p.uv[1] * ih;
+            ctx.strokeStyle = i === selected ? "#acffe3" : "#6ad3bc";
+            ctx.lineWidth = i === selected ? 3 : 1.6;
+            ctx.beginPath();
+            ctx.arc(x, y, i === selected ? 7 : 4, 0, Math.PI * 2);
+            ctx.stroke();
+            if (i === selected) {
+              ctx.font = "600 13px Segoe UI";
+              ctx.fillStyle = "#122d36";
+              ctx.fillRect(x + 11, y - 12, 58, 23);
+              ctx.fillStyle = "#b6ffdf";
+              ctx.fillText(p.level, x + 16, y + 4);
+            }
+          });
+        }
+      }
+      function fullImage() {
+        zoom = 1;
+        pan = { x: 0, y: 0 };
+        drawImage();
+      }
+      function enlarge() {
+        if (!imageLoaded) {
+          pendingEnlarge = true;
+          return;
+        }
+        zoom = 2.3;
+        const p = mode === "sag" ? D.landmarks[selected].uv : [0.5, 0.5];
+        const w = canvas.clientWidth,
+          h = canvas.clientHeight;
+        const fit =
+          Math.min(
+            w / currentImage.naturalWidth,
+            h / currentImage.naturalHeight,
+          ) * zoom;
+        pan = {
+          x: (0.5 - p[0]) * currentImage.naturalWidth * fit,
+          y: (0.5 - p[1]) * currentImage.naturalHeight * fit,
+        };
+        drawImage();
+      }
+      let dragging = null;
+      canvas.addEventListener("pointerdown", (e) => {
+        dragging = { x: e.clientX, y: e.clientY, px: pan.x, py: pan.y };
+        canvas.setPointerCapture(e.pointerId);
+      });
+      canvas.addEventListener("pointermove", (e) => {
+        if (dragging) {
+          pan.x = dragging.px + e.clientX - dragging.x;
+          pan.y = dragging.py + e.clientY - dragging.y;
+          drawImage();
+        }
+      });
+      canvas.addEventListener("pointerup", () => (dragging = null));
+      canvas.addEventListener(
+        "wheel",
+        (e) => {
+          e.preventDefault();
+          const before = zoom;
+          zoom = Math.max(0.6, Math.min(7, zoom * Math.exp(-e.deltaY * 0.001)));
+          pan.x *= zoom / before;
+          pan.y *= zoom / before;
+          drawImage();
+        },
+        { passive: false },
+      );
+      function setMode(m) {
+        mode = m;
+        $("sag").classList.toggle("active", m === "sag");
+        $("axial").classList.toggle("active", m === "axial");
+        fullImage();
+        loadImage();
+      }
+      $("reset").onclick = whole;
+      $("focus").onclick = focus;
+      $("front").onclick = () => orient(true);
+      $("side").onclick = () => orient(false);
+      $("plane").onchange = (e) => (planeMesh.visible = e.target.checked);
+      $("opacity").oninput = (e) => {
+        for (const n of ["vertebrae", "sacrum"])
+          if (meshes[n]) meshes[n].material.opacity = +e.target.value / 100;
+      };
+      $("discs").onchange = (e) =>
+        (meshes.intervertebral_discs.visible = e.target.checked);
+      $("sag").onclick = () => setMode("sag");
+      $("axial").onclick = () => setMode("axial");
+      $("contours").onchange = loadImage;
+      $("prev").onclick = () => {
+        axialIndex--;
+        loadImage();
+      };
+      $("next").onclick = () => {
+        axialIndex++;
+        loadImage();
+      };
+      $("fullImage").onclick = fullImage;
+      $("zoomImage").onclick = enlarge;
+      function resize() {
+        const r = $("view").getBoundingClientRect();
+        renderer.setSize(r.width, r.height);
+        camera.aspect = r.width / r.height;
+        camera.updateProjectionMatrix();
+        needsRender = true;
+        drawImage();
+      }
+      new ResizeObserver(resize).observe($("view"));
+      new ResizeObserver(drawImage).observe($("scanview"));
+      function animate() {
+        requestAnimationFrame(animate);
+        const moved = controls.update();
+        if (!needsRender && !moved) return;
+        needsRender = false;
+        renderer.render(scene, camera);
+        const w = $("view").clientWidth,
+          h = $("view").clientHeight;
+        marks.forEach((m, i) => {
+          const p = m.position.clone().project(camera);
+          labels[i].style.left = ((p.x + 1) * w) / 2 + "px";
+          labels[i].style.top = ((1 - p.y) * h) / 2 + "px";
+          labels[i].style.display =
+            Math.abs(p.x) > 1 || Math.abs(p.y) > 1 || p.z > 1
+              ? "none"
+              : "block";
+        });
+      }
+      $("study").textContent = "Study " + D.study;
+      $("geometry").textContent =
+        "15 sagittal source slices · " +
+        D.voxel_mm.map((x) => x.toFixed(2)).join(" × ") +
+        " mm native voxels. The 4.8 mm inter-slice sampling limits surface detail. Surface smoothing is for display; 2D contours show the original masks. Rotation and zoom do not add source resolution.";
+      window.review3d = {
+        choose,
+        whole,
+        focus,
+        scene,
+        camera,
+        controls,
+        meshes,
+        landmarks: D.landmarks,
+        renderer,
+        drawImage,
+        getState: () => ({
+          selected,
+          mode,
+          zoom,
+          ready: imageLoaded,
+          meshCount: Object.keys(meshes).length,
+        }),
+      };
+      ["click", "input", "change"].forEach((type) =>
+        document.addEventListener(type, () => (needsRender = true)),
+      );
+      whole();
+      choose(3, false);
+      resize();
+      animate();
+      document.body.dataset.ready = "true";
+    </script>
+  </body>
+</html>

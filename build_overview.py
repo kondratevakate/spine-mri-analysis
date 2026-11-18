@@ -121,7 +121,7 @@ def build(cache, original, payload):
     v = json.loads(raw)
     cached = np.load(cache / "paired-features-v1/sagittal.npz")
     idx = {s: i for i, s in enumerate(cached["ids"])}
-    full, xy = cached["full"], cached["predicted"]
+    full, xy = cached["full"], cached["targets"]
     rows = v["q"] + v["bank"]
     nq = len(v["q"])
     series = pd.read_csv(cache / "train_series_descriptions.csv", dtype=str)
@@ -170,7 +170,7 @@ def build(cache, original, payload):
             dict(
                 id=study,
                 sag=image,
-                xy=xy[k].round(5).tolist(),
+                xy=[point.round(5).tolist() if np.isfinite(point).all() else None for point in xy[k]],
                 ax=levels,
                 call=calls.tolist(),
                 score=p.round(5).tolist(),

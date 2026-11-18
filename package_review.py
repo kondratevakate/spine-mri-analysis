@@ -1,4 +1,5 @@
 """Create a local, checksummed reviewer package from a committed source tree."""
+
 import hashlib
 import json
 import subprocess
@@ -28,10 +29,23 @@ def main(out):
         "source.bundle": source,
         "spine-review.html": out / "spine-review.html",
         "spine-reader-v2.html": out / "spine-reader-v2.html",
+        "spine-3d.html": out / "spine-3d.html",
+        "marker-audit.json": out / "marker-audit.json",
     }
-    for name in ["reader-overview", "reader-blind", "reader-comparison", "reader-l3-review"]:
+    for name in [
+        "reader-overview",
+        "reader-blind",
+        "reader-comparison",
+        "reader-l3-review",
+        "spine-3d-overview",
+        "spine-3d-focus",
+        "spine-3d-plane",
+        "spine-3d-axial",
+        "marker-audit",
+        "segmentation-qc",
+    ]:
         files[f"screenshots/{name}.png"] = out / f"{name}.png"
-    archive = out / "lumbar-mri-review.zip"
+    archive = out / "lumbar-mri-review-v3.zip"
     manifest = {"commit": git("rev-parse", "HEAD"), "sha256": {}}
     with ZipFile(archive, "w", ZIP_DEFLATED, compresslevel=3) as zipfile:
         for name, path in files.items():
