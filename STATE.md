@@ -2,6 +2,8 @@
 
 ## Current review candidate
 
+On 18 November the classifier was re-evaluated with RSNA-landmark crops (`relocalize.py`): localization explains part of the moderate errors and a non-significant 0.05-0.07 severe-AP gain, while most severe misses persist with oracle crops. The per-step error budget is `pipeline.html`. Details in REVIEW.md, first section.
+
 The independent review handoff now connects the five-level worksheet to physician-authored Findings/Impression changes, query-image evidence and independent full-study adjudication. Read [CLINICAL_HANDOFF.md](CLINICAL_HANDOFF.md) for the session record, reporting sources, executable checks and next clinical step. The current browser regression passed during handoff preparation. Human reporting utility remains untested.
 
 On 18 November, a landmark audit found a 31 mm L4/L5 displacement in the initial case. The reader now displays RSNA reference coordinates, and a single-study `spine-3d.html` shows actual TotalSegmentator masks with interactive level focus. See the new opening sections of README and REVIEW. Original classifier inputs and retrieval features need re-evaluation after localization review. The 3D viewer has passed local interaction checks and source-plane visual inspection.

@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lumbar MRI Error Budget</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#17202a;--mute:#5b6773;--line:#d9dee4;--meas:#1f8a70;--der:#b7791f;--pro:#6b46c1;--none:#8a94a0;--miss:#c53030;--rsna:#b7791f;--cause:#6b46c1;--bar:#2b6cb0;--hatch:#c9d1da}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f161d;--card:#18222c;--ink:#e8eef3;--mute:#9fb0bf;--line:#2c3a47;--meas:#4fd1a5;--der:#f6c26b;--pro:#b794f4;--none:#7d8a96;--miss:#fc8181;--rsna:#f6c26b;--cause:#b794f4;--bar:#63b3ed;--hatch:#33414e}}
+:root[data-theme="dark"]{--bg:#0f161d;--card:#18222c;--ink:#e8eef3;--mute:#9fb0bf;--line:#2c3a47;--meas:#4fd1a5;--der:#f6c26b;--pro:#b794f4;--none:#7d8a96;--miss:#fc8181;--rsna:#f6c26b;--cause:#b794f4;--bar:#63b3ed;--hatch:#33414e}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 "Segoe UI",system-ui,sans-serif}
+main{max-width:1500px;margin:auto;padding:24px 16px 48px}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:18px;margin:28px 0 10px}.sub{color:var(--mute);margin:0 0 14px;max-width:1100px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--mute);margin-bottom:14px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.chip{display:inline-block;padding:1px 8px;border-radius:10px;font-size:12px;font-weight:600;color:#fff}
+.measured{background:var(--meas)}.derivable{background:var(--der)}.prospective{background:var(--pro)}.notbuilt{background:var(--none)}
+.fear{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;border:1.5px solid currentColor;border-radius:4px;padding:0 6px}
+.f-miss{color:var(--miss)}.f-rsna{color:var(--rsna)}.f-cause{color:var(--cause)}
+.flow{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:10px;align-items:stretch}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;position:relative}
+.card.io{justify-content:center;text-align:center;border-style:dashed}
+.card h3{font-size:15px;margin:0}.num{font-size:12px;font-weight:700;color:var(--mute)}
+.card .what{font-size:13px;color:var(--mute)}
+.kv{font-size:12.5px;border-top:1px solid var(--line);padding-top:6px}
+.kv>b:first-child{display:block;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--mute);font-weight:600}
+.big{font-size:17px;font-weight:700}
+.fears{display:flex;flex-wrap:wrap;gap:4px}
+.card::after{content:"→";position:absolute;right:-10px;top:42%;color:var(--mute);font-size:16px}
+.card:last-child::after{display:none}
+.budget{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
+.row{display:grid;grid-template-columns:300px 190px 1fr 150px;gap:12px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.row:last-child{border-bottom:0}
+.row input{width:90px;vertical-align:middle}
+.track{height:14px;background:var(--line);border-radius:3px;overflow:hidden}.fill{height:100%;background:var(--bar)}
+.hatch{height:14px;border-radius:3px;background:repeating-linear-gradient(45deg,var(--hatch) 0 6px,transparent 6px 12px);font-size:11px;color:var(--mute);line-height:14px;padding-left:6px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.steps div{border:1px solid var(--line);border-radius:8px;padding:10px;font-size:13px}
+.note{font-size:12.5px;color:var(--mute);max-width:1200px}
+a{color:var(--bar)}
+@media(max-width:1100px){.flow{grid-template-columns:1fr 1fr}.card::after{display:none}.row{grid-template-columns:1fr 70px}.row .track,.row .hatch,.row .cost{grid-column:1/-1}.steps{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.flow,.steps{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<h1>From lumbar MRI to an accurate radiologist report: where the errors are</h1>
+<p class="sub">Each step shows the current model and its measured result, the best achievable value (ceiling) and how much of the final error this step contributes. The test set is the internal RSNA 2024 split: 308 studies and 1,540 central-canal levels, with the severe threshold frozen on validation at a 5% false-positive cap. Unmeasured values are marked as such and never shown as zero.</p>
+<div class="legend">
+<span><i class="chip measured">measured</i> on our data</span>
+<span><i class="chip derivable">needs annotation</i> computable after extra labelling</span>
+<span><i class="chip prospective">needs outcomes</i> clinical data or a reader study</span>
+<span><i class="chip notbuilt">not built</i></span>
+<span><i class="fear f-miss">! MISS</i> fear of missing an important finding</span>
+<span><i class="fear f-rsna">! RSNA</i> fear of breaking the grading method</span>
+<span><i class="fear f-cause">! CAUSE</i> fear of not explaining the cause on the images</span>
+</div>
+
+<div class="flow" id="flow"></div>
+
+<h2>Error budget on the 308-study test set</h2>
+<div class="budget">
+<p class="note" style="margin-top:0">Counts are measured for the sagittal-crop central-canal model. <b>The weights are our hypothesis, not taken from a guideline.</b> A missed severe level or a finding at the wrong level can send the report, and a procedure, to the wrong target. A false alert costs reading time. Set the weights with radiologists; the bars recompute. Hatched rows have no measurement and are left out of the total. The share moved to step 1 is the fraction of that error that disappeared when the same model was retrained and tested on RSNA-landmark crops, averaged over 3 seeds; for missed severe levels the oracle arm also raised false alerts, so its 26% is an upper estimate and not statistically significant.</p>
+<div id="rows"></div>
+<div class="steps" id="bystep"></div>
+</div>
+
+<h2>What this page does not show</h2>
+<p class="note">Agreement with RSNA labels is not clinical correctness, and a report that follows the grading rule is not proven benefit to the patient. RSNA contains no symptoms, neurological examination, treatment or outcome, so symptom match (step 3), cause (step 4) and outcome-based neighbours (step 6) cannot be measured on it. Urgent findings such as cauda equina compression, tumour, infection or fracture are outside the RSNA labels; the current models do not look for them. The test split was inspected during earlier work, and every number is an internal estimate without site-held-out validation.</p>
+<p class="note">Sources: RSNA did not report inter-reader agreement among its contributing readers, as stated by <a href="https://doi.org/10.1177/21925682261448823">Gebhard et al., Global Spine J 2026</a> (PubMed 42092340), which also reports 41.8% severe sensitivity for Gemini 3 Pro on 100 RSNA studies. Our numbers come from <code>paired-20261116/metrics.csv</code>, <code>audit-results.json</code>, <code>reproduction/enriched-all-tta9.json</code>, <code>work/marker-audit</code> and <code>work/relocalized</code>.</p>
+</main>
+<script>
+const STEPS=[
+ {io:true,title:"Input study",what:"Sagittal T1, sagittal T2/STIR, axial T2 DICOM. RSNA 2024, 1,974 studies in our split."},
+ {n:"1",title:"Positioning and crop selection",status:"measured",
+  what:"Locate the five disc levels on sagittal and pick the matching axial planes.",
+  metric:"Distance to the RSNA landmark: median <span class=big>7.7 mm</span>, 95th percentile 22.3 mm; 101 of 1,511 levels are more than 20 mm off.",
+  ceiling:"RSNA landmark used as an oracle. Annotator landmark variability is not reported. 13 RSNA landmarks are placeholders at pixel (5,5).",
+  share:"__LOC__",
+  fears:["miss"]},
+ {n:"1.1",title:"Harmonisation, segmentation, alignment, super-resolution",status:"notbuilt",
+  what:"Normalise scanners, segment vertebrae/discs/canal, register axial to sagittal, raise through-plane resolution.",
+  metric:"TotalSegmentator total_mr on <b>1 study</b>, checked by eye on 3 slices. Voxel 0.36×0.36×4.8 mm. No harmonisation, registration or super-resolution.",
+  ceiling:"Not measured. SPIDER has reference masks (needs annotation pipeline).",
+  share:"Unknown",fears:[]},
+ {n:"2",title:"Classification on each crop (sagittal + axial)",status:"measured",
+  what:"Grade central canal, both foramina and both subarticular zones per level.",
+  metric:"Central canal: <span class=big>67/81</span> severe levels found with 98/1,459 false alerts. Adding axial: −4.9 pp (95% CI −12.8 to +2.6). Foramina (2nd-place RSNA weights, enriched 15 studies): 14/21 severe; subarticular not run.",
+  ceiling:"<b>Unknown.</b> RSNA did not publish reader agreement, so the label ceiling needs a double-read subset.",
+  share:"__CLS__",fears:["miss","rsna"]},
+ {n:"3",title:"Where is the main problem",status:"measured",
+  what:"Choose the culprit level, compartment and side, and match them to the symptoms.",
+  metric:"Of 66 studies with severe central stenosis: <span class=big>58</span> got an alert at a correct level, <b>6 only at a wrong level</b>. 38 of 242 studies without one were alerted. Side named exactly on 5 of 11 unilateral severe foramina.",
+  ceiling:"Symptom match cannot be measured: RSNA has no clinical data.",
+  share:"6 of 66 severe studies point the report to the wrong level",fears:["miss"]},
+ {n:"4",title:"Cause of the problem",status:"derivable",
+  what:"Disc herniation, ligamentum flavum, facet hypertrophy, listhesis, cyst: what narrows the canal.",
+  metric:"Not built. RSNA has no cause labels.",
+  ceiling:"Needs cause annotation (NASS disc nomenclature 2.0) or a dataset with canal masks such as Fırat axial v1.",
+  share:"Unknown",fears:["cause"]},
+ {n:"5",title:"Description and verification",status:"prospective",
+  what:"Findings and Impression wording, checked against the images by the radiologist.",
+  metric:"Recording tool ready (<code>clinical_review.py</code>). <b>0</b> radiologist sessions so far.",
+  ceiling:"Independent full-study read: completeness and factual accuracy of the Impression.",
+  share:"Unknown",fears:["miss","rsna","cause"]},
+ {n:"6",title:"Neighbours by cause and outcome",status:"prospective",
+  what:"Similar cases grouped by cause and treatment outcome, not by how the anatomy looks.",
+  metric:"The current reader ranks neighbours by anatomy (axial and sagittal image similarity), which is not what this step needs. RSNA has no outcomes.",
+  ceiling:"Needs outcome data. MMCSD has pre-op and 1-year pain for 250 operated patients, but in the cervical spine.",
+  share:"Unknown",fears:[]},
+ {io:true,title:"Radiologist report",what:"Level, side, compartment, grade, cause; what to correlate with symptoms; urgent communication when needed."}
+];
+// Measured in work/relocalized (relocalize.py), three training seeds, 1,511 levels with a valid landmark.
+const LOC={
+ text:"Oracle landmarks, same training, 3 seeds: severe AP <span class=big>0.63 → 0.69</span> (each seed's paired 95% CI touches or crosses 0). Moderate recall 26–29% → 34–50%. A model trained on oracle crops loses 8–12 severe levels when fed automatic crops (CI excludes 0).",
+ cls:"Even with oracle crops <b>8–12 of 81</b> severe levels are missed and 32–45 of 117 moderate levels are called normal/mild. Most severe misses come from grading, not localisation."};
+const FEAR={miss:["f-miss","! MISS"],rsna:["f-rsna","! RSNA"],cause:["f-cause","! CAUSE"]};
+const LABEL={measured:"measured",derivable:"needs annotation",prospective:"needs outcomes",notbuilt:"not built"};
+document.getElementById("flow").innerHTML=STEPS.map(s=>s.io?`<div class="card io"><h3>${s.title}</h3><div class="what">${s.what}</div></div>`:
+ `<div class="card"><div class="num">STEP ${s.n} <i class="chip ${s.status}">${LABEL[s.status]}</i></div><h3>${s.title}</h3><div class="what">${s.what}</div>
+ <div class="kv"><b>Current model</b>${s.metric}</div><div class="kv"><b>Ceiling</b>${s.ceiling}</div>
+ <div class="kv"><b>Error from this step</b>${s.share.replace("__LOC__",LOC.text).replace("__CLS__",LOC.cls||"Pending")}</div>
+ <div class="fears">${s.fears.map(f=>`<i class="fear ${FEAR[f][0]}">${FEAR[f][1]}</i>`).join("")}</div></div>`).join("");
+const ERR=[
+ {name:"Severe level missed",step:"2",n:14,w:10,fear:"miss",loc:.26},
+ {name:"Severe study alerted only at a wrong level",step:"3",n:6,w:10,fear:"miss"},
+ {name:"Moderate called normal/mild",step:"2",n:65,w:2,fear:"rsna",loc:.33},
+ {name:"Severe called normal/mild (argmax)",step:"2",n:19,w:5,fear:"rsna",loc:.47},
+ {name:"Moderate called severe",step:"2",n:25,w:2,fear:"rsna"},
+ {name:"False severe alert",step:"2",n:98,w:1,fear:""},
+ {name:"Cause not stated or wrong",step:"4",n:null,w:5,fear:"cause"},
+ {name:"Urgent finding missed (outside RSNA)",step:"5",n:null,w:50,fear:"miss"},
+ {name:"Impression incomplete or inaccurate",step:"5",n:null,w:5,fear:"rsna"}
+];
+function draw(){
+ const costs=ERR.map(e=>e.n==null?null:e.n*e.w),max=Math.max(...costs.filter(c=>c!=null));
+ document.getElementById("rows").innerHTML=ERR.map((e,i)=>`<div class="row"><span>${e.fear?`<i class="fear ${FEAR[e.fear][0]}">${FEAR[e.fear][1]}</i> `:""}${e.name} <small style="color:var(--mute)">· step ${e.step}</small></span>
+ <span>${e.n==null?"—":e.n} × <input type="range" min="0" max="100" value="${e.w}" data-i="${i}" aria-label="weight"> <b>${e.w}</b></span>
+ ${e.n==null?`<div class="hatch">not measured</div>`:`<div class="track"><div class="fill" style="width:${100*costs[i]/max}%"></div></div>`}
+ <span class="cost">${e.n==null?"excluded":costs[i]}${e.loc?`<br><small style="color:var(--mute)">${Math.round(100*e.loc)}% → step 1</small>`:""}</span></div>`).join("");
+ document.querySelectorAll("#rows input").forEach(x=>x.oninput=()=>{ERR[x.dataset.i].w=+x.value;draw();document.querySelector(`#rows input[data-i="${x.dataset.i}"]`).focus()});
+ const total=costs.reduce((a,c)=>a+(c||0),0),by={};
+ by['1']={c:0,unk:0};ERR.forEach((e,i)=>{by[e.step]??={c:0,unk:0};if(costs[i]==null){by[e.step].unk++;return}const l=(e.loc||0)*costs[i];by['1'].c+=l;by[e.step].c+=costs[i]-l});
+ document.getElementById("bystep").innerHTML=Object.entries(by).sort().map(([k,v])=>`<div><b>Step ${k}</b><br>${v.c?`${Math.round(100*v.c/total)}% of measured weighted cost`:"no measured cost"}${v.unk?`<br><span style="color:var(--mute)">${v.unk} error type(s) not measured</span>`:""}</div>`).join("");
+}
+draw();
+</script>
+</main>
+</body>
+</html>

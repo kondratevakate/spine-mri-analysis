@@ -1,5 +1,23 @@
 # Physician workflow and critical review
 
+## Oracle-localization re-evaluation and error budget, 18 November 2026
+
+`relocalize.py` re-cut the 48 mm sagittal crops at RSNA landmarks and re-evaluated the sagittal-crop central-canal classifier (output in `work/relocalized/`). The rebuilt images reproduced the cached automatic crops exactly (max absolute difference 0). 13 RSNA landmarks are placeholders at pixel (5, 5) and project to the image corner; they are excluded, leaving 1,511 of 1,540 labelled test levels. After removing them the marker audit still stands: median 7.7 mm, 95th percentile 22.3 mm, 101 levels above 20 mm. Only 1 of the 81 severe levels is among those 101.
+
+Arms (severe threshold frozen on validation at a 5% FPR cap; three training seeds for retrained arms):
+
+| Arm | Severe found /81 | False alerts | Severe AP | Moderate recall |
+|---|---:|---:|---:|---:|
+| A original weights, automatic crops | 66 | 88 | 0.626 | 0.24 |
+| B original weights, reference crops | 68 | 87 | 0.658 | 0.26 |
+| E retrained same loop, automatic crops | 67-70 | 89-91 | 0.62-0.64 | 0.26-0.29 |
+| C retrained, reference crops | 69-73 | 95-111 | 0.67-0.70 | 0.34-0.50 |
+| D reference-trained, automatic crops | 55-59 | 92-105 | 0.48-0.56 | 0.21-0.27 |
+
+Reading: oracle localization raises severe AP by about 0.05-0.07 in every seed, but each paired study-bootstrap 95% CI touches or crosses zero, and the extra severe detections come with more false alerts. Moderate recall gains are consistent. D minus E is negative in all seeds with CIs excluding zero (8-12 fewer severe levels): training on clean crops does not help if inference still uses the automatic localizer. With oracle crops 8-12 of 81 severe levels are still missed, so most severe misses are grading errors rather than localization errors. Visual QC (`work/relocalized/relocalize-qc.png`) confirmed reference crops centre on the disc and canal, while large automatic displacements land on vertebral bodies or prevertebral soft tissue.
+
+`pipeline.html` is the step-by-step error budget requested on 18 November: input study to radiologist report, steps 1-6, measured metric, ceiling, error share, radiologist fear points (miss, RSNA method, cause) and adjustable error-cost weights. The weights are a hypothesis for radiologists to set. The RSNA ceiling for grading is unknown: inter-reader agreement among RSNA contributing readers was not reported (Gebhard et al., Global Spine J 2026, doi:10.1177/21925682261448823). Steps 1.1, 4, 5 and 6 have no measurement on current data.
+
 ## Marker audit and 3D update, 18 November 2026
 
 The earlier visual review failed to detect incorrect automatic point placement. An independent reconstruction of study 1269700501 from DICOM orientation, position and pixel spacing reproduced the reference-point coordinates, and measured automatic-point displacements of 19.8, 25.0, 23.4, 31.0 and 34.1 mm across L1/L2 through L5/S1. The previous claims that correct interaction and the displayed model decision supported the named level were too strong.
